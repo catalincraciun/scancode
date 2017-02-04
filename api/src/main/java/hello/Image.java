@@ -60,6 +60,10 @@ public class Image {
     return image;
   }
 
+  public Color getPixel(int x, int y) {
+    return new Color(image.getRGB(x, y));
+  }
+
   private void drawCircle(int centerX, int centerY) {
     int radius = sideLength * 3 / 8;
 
