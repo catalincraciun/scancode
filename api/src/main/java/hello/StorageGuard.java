@@ -9,9 +9,8 @@ import java.util.Scanner;
 
 public class StorageGuard {
 
-  private HashMap<Integer, String> map;
+  private HashMap<Long, String> map;
   private static final String fileName = "codes.snc";
-  private File file;
 
   public StorageGuard() {
     loadStorage();
@@ -20,7 +19,7 @@ public class StorageGuard {
   public void saveData() {
     try {
       PrintWriter writer = new PrintWriter(fileName, "UTF-8");
-      for (Integer key : map.keySet()) {
+      for (Long key : map.keySet()) {
         writer.println(key + " " + map.get(key));
       }
       writer.close();
@@ -29,18 +28,18 @@ public class StorageGuard {
     }
   }
 
-  public boolean contains(int code) {
+  public boolean contains(long code) {
     return map.containsKey(code);
   }
 
-  public String getData(int code) {
+  public String getData(long code) {
     if (map != null && map.containsKey(code)) {
       return map.get(code);
     }
     return "null";
   }
 
-  public void add(int code, String data) {
+  public void add(long code, String data) {
     if (map != null) {
       if (!map.containsKey(code)) {
         map.put(code, data);
@@ -54,7 +53,7 @@ public class StorageGuard {
       Scanner scanner = new Scanner(new File(fileName));
       map = new HashMap<>();
       while (scanner.hasNextInt()) {
-        int code = scanner.nextInt();
+        long code = scanner.nextInt();
         String input = scanner.next();
 
         map.put(code, input);
