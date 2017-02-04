@@ -1,5 +1,7 @@
 *.class
 
+*.snc
+
 api/.idea/*
 scancode_idea/*
 
