@@ -2,19 +2,19 @@ package hello;
 
 public class Greeting {
 
-    private final long id;
-    private final String content;
+    private final boolean success;
+    private final String image;
 
-    public Greeting(long id, String content) {
-        this.id = id;
-        this.content = content;
+    public Greeting(boolean success, String image) {
+        this.image = image;
+        this.success = success;
     }
 
-    public long getId() {
-        return id;
+    public boolean isSuccess() {
+        return success;
     }
 
-    public String getContent() {
-        return content;
+    public String getImage() {
+        return image;
     }
 }

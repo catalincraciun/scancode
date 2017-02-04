@@ -29,6 +29,10 @@ public class StorageGuard {
     }
   }
 
+  public boolean contains(int code) {
+    return map.containsKey(code);
+  }
+
   public String getData(int code) {
     if (map != null && map.containsKey(code)) {
       return map.get(code);

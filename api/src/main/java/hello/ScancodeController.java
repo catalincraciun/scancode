@@ -1,5 +1,6 @@
 package hello;
 
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ScancodeController {
 
+    private Random random;
     private StorageGuard storage;
     private static final String apiKey =
         "7D8s2DJK23iD92jdDJksqEQewscxnr24j2Dsncsksddsjejdmnds2";
@@ -16,17 +18,27 @@ public class ScancodeController {
 
     public ScancodeController() {
         storage = new StorageGuard();
+        random = new Random();
     }
 
     @RequestMapping("/generateCode")
     public Greeting generateCode(
-        @RequestParam(value="name", defaultValue="Scancode") String name,
+        @RequestParam(value="data", defaultValue="null") String data,
         @RequestParam(value="apiKey", defaultValue="null") String clientKey) {
         if (clientKey.equals(apiKey)) {
             // Authorised access
-            storage.add((int)counter.get(), name);
-            return new Greeting(counter.incrementAndGet(),
-                String.format(template, name));
+            int rand = random.nextInt();
+            while (storage.contains(rand)) {
+                rand = random.nextInt();
+            }
+            try {
+                Image generatedImage = new Image((long) rand);
+                storage.add(rand, data);
+                return new Greeting(true, generatedImage.getBase64());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return new Greeting(false, "null");
         }
         return null;
     }
@@ -37,8 +49,7 @@ public class ScancodeController {
         @RequestParam(value="apiKey", defaultValue="null") String clientKey) {
         if (clientKey.equals(apiKey)) {
             // Authorised access
-            return new Greeting(counter.incrementAndGet(),
-                                storage.getData(new Integer(base64)));
+          return new Greeting(false, "null");
         }
         return null;
     }
