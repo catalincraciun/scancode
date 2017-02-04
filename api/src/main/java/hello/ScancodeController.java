@@ -8,10 +8,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ScancodeController {
 
+    private StorageGuard storage;
     private static final String apiKey =
         "7D8s2DJK23iD92jdDJksqEQewscxnr24j2Dsncsksddsjejdmnds2";
     private static final String template = "Alright, %s!";
     private final AtomicLong counter = new AtomicLong();
+
+    public ScancodeController() {
+        storage = new StorageGuard();
+    }
 
     @RequestMapping("/generateCode")
     public Greeting generateCode(
@@ -19,6 +24,7 @@ public class ScancodeController {
         @RequestParam(value="apiKey", defaultValue="null") String clientKey) {
         if (clientKey.equals(apiKey)) {
             // Authorised access
+            storage.add((int)counter.get(), name);
             return new Greeting(counter.incrementAndGet(),
                 String.format(template, name));
         }
@@ -27,12 +33,12 @@ public class ScancodeController {
 
     @RequestMapping("/scanCode")
     public Greeting scanCode(
-        @RequestParam(value="image", defaultValue="null") String base64,
+        @RequestParam(value="key", defaultValue="-1") String base64,
         @RequestParam(value="apiKey", defaultValue="null") String clientKey) {
         if (clientKey.equals(apiKey)) {
             // Authorised access
             return new Greeting(counter.incrementAndGet(),
-                                "Mata are mere");
+                                storage.getData(new Integer(base64)));
         }
         return null;
     }
