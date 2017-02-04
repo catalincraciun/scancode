@@ -60,9 +60,7 @@ public class Image {
     return image;
   }
 
-  private void drawCircle(int x, int y) {
-    int centerX = x + sideLength / 2;
-    int centerY = y + sideLength / 2;
+  private void drawCircle(int centerX, int centerY) {
     int radius = sideLength * 3 / 8;
 
     for (int i = centerX - radius; i <= centerX + radius; i ++) {
@@ -74,22 +72,71 @@ public class Image {
   }
 
   private void drawTopLeft(int i) {
+    int topLeftX = 0;
+    int topLeftY = 0;
+
     if (0 <= i && i <= 6) {
-      drawCircle((i % 7 + 1) * sideLength, sideLength);
+
+      topLeftX = (i % 7 + 1) * sideLength;
+      topLeftY = sideLength;
+
     } else if (7 <= i && i <= 13) {
-      drawCircle((i % 7 + 1) * sideLength, 2 * sideLength);
+
+      topLeftX = (i % 7 + 1) * sideLength;
+      topLeftY = 2 * sideLength;
+
     } else if (14 <= i && i <= 20) {
-      drawCircle((i % 7 + 1) * sideLength, 3 * sideLength);
+
+      topLeftX = (i % 7 + 1) * sideLength;
+      topLeftY = 3 * sideLength;
+
     } else if (21 <= i && i <= 23) {
-      drawCircle((i % 3 + 1) * sideLength, 4 * sideLength);
+
+      topLeftX = (i % 3 + 1) * sideLength;
+      topLeftY = 4 * sideLength;
+
     } else if (24 <= i & i <= 26) {
-      drawCircle((i % 3 + 1) * sideLength, 5 * sideLength);
+
+      topLeftX = (i % 3 + 1) * sideLength;
+      topLeftY = 5 * sideLength;
+
     } else if (27 <= i & i <= 29) {
-      drawCircle((i % 3 + 1) * sideLength, 6 * sideLength);
+
+      topLeftX = (i % 3 + 1) * sideLength;
+      topLeftY = 6 * sideLength;
+
     } else if (30 <= i & i <= 32) {
-      drawCircle((i % 3 + 1) * sideLength, 7 * sideLength);
+
+      topLeftX = (i % 3 + 1) * sideLength;
+      topLeftY = 7 * sideLength;
+
     }
+
+    drawCircle(topLeftX + sideLength / 2, topLeftY + sideLength / 2);
+
+    drawTopRight(topLeftX + sideLength / 2, topLeftY + sideLength / 2);
   }
 
+  private void drawTopRight(int i, int j) {
+    int topRightX = image.getHeight() - j - 1;
+    int topRightY = i;
 
+    drawCircle(topRightX, topRightY);
+    drawBottomRight(topRightX, topRightY);
+  }
+
+  private void drawBottomRight(int i, int j) {
+    int bottomRightX = image.getHeight() - j - 1;
+    int bottomRightY = i;
+
+    drawCircle(bottomRightX, bottomRightY);
+    drawBottomLeft(bottomRightX, bottomRightY);
+  }
+
+  private void drawBottomLeft(int i, int j) {
+    int bottomLeftX = image.getHeight() - j - 1;
+    int bottomLeftY = i;
+
+    drawCircle(bottomLeftX, bottomLeftY);
+  }
 }
