@@ -1,6 +1,6 @@
 *.class
 
-.idea/*
+api/.idea/*
 scancode_idea/*
 
 # Mobile Tools for Java (J2ME)
