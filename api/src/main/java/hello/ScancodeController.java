@@ -1,9 +1,15 @@
 package hello;
 
+import hello.corners.CornerAnalyzer;
+import hello.corners.PictureUtils;
+import java.io.IOException;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicLong;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -48,13 +54,26 @@ public class ScancodeController {
         return new Greeting(false, "Unauthorised access");
     }
 
-    @RequestMapping("/scanCode")
-    public Greeting scanCode(
-        @RequestParam(value="key", defaultValue="-1") String base64,
-        @RequestParam(value="apiKey", defaultValue="null") String clientKey) {
-        if (clientKey.equals(apiKey)) {
+    @RequestMapping(value="/scanCode", method=RequestMethod.POST)
+    public Greeting scanCode(@RequestBody Map<String, Object> map) {
+        if (!map.containsKey("apiKey") || !map.containsKey("image")) {
+            return new Greeting(false, "Unauthorised access");
+        }
+
+        String base64 = (String)map.get("image");
+        String apiKey = (String)map.get("apiKey");
+        if (apiKey.equals(apiKey) && !base64.equals("null")) {
             // Authorised access
-          return new Greeting(false, "null");
+            try {
+                Image myImage = new Image(base64);
+                CornerAnalyzer analyzer = new CornerAnalyzer(new PictureUtils(myImage.getImage()));
+                analyzer.calculateCorners();
+                return new Greeting(true, "TopLeft: " + analyzer.getTopLeft() + " TopRight: " +
+                    analyzer.getTopRight() + " BottomRight: " + analyzer.getBottomRight() +
+                    analyzer.getBottomRight() + " BottomLeft: " + analyzer.getBottomLeft());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return new Greeting(false, "Unauthorised access");
     }

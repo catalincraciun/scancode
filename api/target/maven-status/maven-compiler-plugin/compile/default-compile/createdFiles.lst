@@ -1,5 +1,11 @@
+hello/corners/Point.class
 hello/Greeting.class
 hello/StorageGuard.class
-hello/Application.class
 hello/ScancodeController.class
 hello/Image.class
+hello/ImageJSON.class
+hello/corners/Utils.class
+hello/corners/CornerAnalyzer.class
+hello/Application.class
+hello/corners/PictureUtils.class
+hello/corners/Color.class
