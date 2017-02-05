@@ -1,5 +1,6 @@
 package hello;
 
+import hello.codeanalyzer.Code;
 import hello.corners.CornerAnalyzer;
 import hello.corners.PictureUtils;
 import java.io.IOException;
@@ -68,9 +69,12 @@ public class ScancodeController {
                 Image myImage = new Image(base64);
                 CornerAnalyzer analyzer = new CornerAnalyzer(new PictureUtils(myImage.getImage()));
                 analyzer.calculateCorners();
-                return new Greeting(true, "TopLeft: " + analyzer.getTopLeft() + " TopRight: " +
-                    analyzer.getTopRight() + " BottomRight: " + analyzer.getBottomRight() +
-                    analyzer.getBottomRight() + " BottomLeft: " + analyzer.getBottomLeft());
+                Code code = new Code(myImage, new hello.codeanalyzer.Point[]{
+                    new hello.codeanalyzer.Point(analyzer.getTopLeft().getY(), analyzer.getTopLeft().getX()),
+                    new hello.codeanalyzer.Point(analyzer.getTopRight().getY(), analyzer.getTopRight().getX()),
+                    new hello.codeanalyzer.Point(analyzer.getBottomLeft().getY(), analyzer.getBottomLeft().getX()),
+                    new hello.codeanalyzer.Point(analyzer.getBottomRight().getY(), analyzer.getBottomRight().getX())});
+                return new Greeting(true, storage.getData(code.getCode()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
