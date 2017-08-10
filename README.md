@@ -8,7 +8,7 @@ We wanted to build a platform to bring fancy personalised QR codes to everyone.
 The API has two main features:
 1. It can generate a QR code holding some data of your choice
 2. It can take a raw image (like the image from your camera), scan the QR code and send you back the embedded data
-</br>
+
 In order to prove the interaction flow, we have created a sample client iOS app that can request the API for a QR code and then display the information from other scanned QR codes.
 
 <img src="https://github.com/catalincraciun/scancode/blob/master/resources/scancode1.png" alt="Scancode" width=150/> <img src="https://github.com/catalincraciun/scancode/blob/master/resources/scancode2.png" alt="Scancode" width=150/> <img src="https://github.com/catalincraciun/scancode/blob/master/resources/scancode3.png" alt="Scancode" width=150/> <img src="https://github.com/catalincraciun/scancode/blob/master/resources/scancode4.png" alt="Scancode" width=150/>
