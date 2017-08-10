@@ -18,7 +18,7 @@ public class Image {
   private final String base64;
   private BufferedImage image;
   private static final String defaultLocation =
-      "baseImagecopy512x512.png";
+      "src/main/resources/baseImage512x512.png";
   private int sideLength = 0; //nr of squares in a row
 
   public Image(String base64) throws IOException {
