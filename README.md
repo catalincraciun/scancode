@@ -10,6 +10,10 @@ The API has two main features:
 2. It can take a raw image (like the image from your camera), scan the QR code and send you back the embedded data
 </br>
 In order to prove the interaction flow, we have created a sample client iOS app that can request the API for a QR code and then display the information from other scanned QR codes.
+![ScanCode](https://github.com/catalincraciun/scancode/blob/master/resources/scancode1.png)
+![ScanCode](https://github.com/catalincraciun/scancode/blob/master/resources/scancode2.png)
+![ScanCode](https://github.com/catalincraciun/scancode/blob/master/resources/scancode3.png)
+![ScanCode](https://github.com/catalincraciun/scancode/blob/master/resources/scancode4.png)
 
 How to build and run
 ----------
@@ -26,4 +30,4 @@ The API is mainly based aroung Spring Boot framework. Other than that we have co
 The prize
 ---------
 ScanCode won 'Most Viable Hack' prize awarded by Bloomberg! :wine_glass:
-![alt text](https://github.com/catalincraciun/scancode/blob/master/resources/bloomberg_prize.jpg)
+![Bloomberg Prize](https://github.com/catalincraciun/scancode/blob/master/resources/bloomberg_prize.jpg)
