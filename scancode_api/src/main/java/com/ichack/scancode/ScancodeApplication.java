@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ScancodeApplication {
+public class ScanCodeApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ScancodeApplication.class, args);
+		SpringApplication.run(ScanCodeApplication.class, args);
 	}
 }

@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class StorageGuard {
 
@@ -49,8 +51,9 @@ public class StorageGuard {
   }
 
   public void loadStorage() {
+    Scanner scanner = null;
     try {
-      Scanner scanner = new Scanner(new File(fileName));
+      scanner = new Scanner(new File(fileName));
       map = new HashMap<>();
       while (scanner.hasNextInt()) {
         long code = scanner.nextInt();
@@ -59,7 +62,17 @@ public class StorageGuard {
         map.put(code, input);
       }
     } catch (FileNotFoundException e) {
-      e.printStackTrace();
+      File file = new File(fileName);
+      try {
+        file.createNewFile();
+        map = new HashMap<>();
+      } catch (Exception fileError) {
+        Logger.getGlobal().log(Level.SEVERE, String.valueOf(fileError));
+      }
+    } finally {
+      if (scanner != null) {
+        scanner.close();
+      }
     }
   }
 
