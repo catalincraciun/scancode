@@ -1,5 +1,6 @@
 package com.ichack.scancode.controller;
 
+import com.ichack.scancode.model.FileStorageGuard;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,15 +31,19 @@ public class ScanCodeController {
   private static final String API_KEY =
       "7D8s2DJK23iD92jdDJksqEQewscxnr24j2Dsncsksddsjejdmnds2";
 
-  private StorageGuard storage;
+  private final StorageGuard storage;
+
+  public ScanCodeController(StorageGuard storage) {
+    this.storage = storage;
+  }
 
   public ScanCodeController() {
-      storage = new StorageGuard();
+    this.storage = new FileStorageGuard();
   }
 
   private long getUniqueCode() {
     long rand = ThreadLocalRandom.current().nextLong(UPPER_BOUND);
-    while (storage.contains(rand)) {
+    while (storage.containsData(rand)) {
       rand = ThreadLocalRandom.current().nextLong(UPPER_BOUND);
     }
     return rand;
