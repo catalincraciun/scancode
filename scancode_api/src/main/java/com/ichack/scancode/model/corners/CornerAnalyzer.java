@@ -1,8 +1,9 @@
 package com.ichack.scancode.model.corners;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
-
 
 public class CornerAnalyzer {
 
@@ -19,28 +20,24 @@ public class CornerAnalyzer {
     private Point bottomRight;
 
     public CornerAnalyzer(PictureUtils picture) {
-        xl = new ArrayList<>();
-        yl = new ArrayList<>();
-        this.picture = picture;
-        visited = new boolean[picture.getWidth()][picture.getHeight()];
+      xl = new ArrayList<>();
+      yl = new ArrayList<>();
+      visited = new boolean[picture.getWidth()][picture.getHeight()];
+
+      this.picture = picture;
     }
 
     private void contour(){
-        boolean quit = false;
         for(int x = 0; x < picture.getWidth(); x++){
             for(int y = 0; y < picture.getHeight(); y++){
                 if(picture.getPixel(x, y).sameColor(borderColor, blackSensitivity)
                         && checkPixel(x, y) && !visited[x][y]){
                     helper(x, y);
                     visited[x][y] = true;
-                    quit = true;
-                    break;
-                } else if(!picture.getPixel(x, y).sameColor(borderColor, blackSensitivity )){
-                    visited[x][y] = true;
+                    return;
+                } else if(!picture.getPixel(x, y).sameColor(borderColor, blackSensitivity )) {
+                  visited[x][y] = true;
                 }
-            }
-            if(quit) {
-                break;
             }
         }
     }
@@ -82,19 +79,24 @@ public class CornerAnalyzer {
     }
 
     private void helper(int x, int y){
+      Deque<Point> queue = new ArrayDeque();
+      queue.push(new Point(x, y));
+      while (!queue.isEmpty()) {
+        Point popped = queue.pollLast();
+        xl.add(popped.getX());
+        yl.add(popped.getY());
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                if (PictureUtils.isInBounds(picture, x + i, y + j) &&
-                        borderColor.sameColor(picture.getPixel(x + i, y + j), blackSensitivity )) {
-                    if(!visited[x + i][y + j]) {
-                        visited[x + i][y + j] = true;
-                        xl.add(x);
-                        yl.add(y);
-                        helper(x + i, y + j);
+                if (PictureUtils.isInBounds(picture, popped.getX() + i, popped.getY() + j) &&
+                        borderColor.sameColor(picture.getPixel(popped.getX() + i, popped.getY() + j), blackSensitivity )) {
+                    if(!visited[popped.getX() + i][popped.getY() + j]) {
+                        visited[popped.getX() + i][popped.getY() + j] = true;
+                        queue.addLast(new Point(popped.getX() + i, popped.getY() + j));
                     }
                 }
             }
         }
+      }
     }
 
 

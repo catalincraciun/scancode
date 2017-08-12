@@ -28,7 +28,7 @@ public class Code {
   }
 
   private long generateCode(List<LocatedPixel> pixels) {
-    System.out.println("generating code");
+    //System.out.println("generating code");
     int red[][] = new int[maxSize+10][maxSize+10];
     int green[][] = new int[maxSize+10][maxSize+10];
     int blue[][] = new int[maxSize+10][maxSize+10];
@@ -68,19 +68,19 @@ public class Code {
     for (int j = 0; j < maxSize; j++) {
       for (int i = 0; i < maxSize; i++) {
         if(i%32 == 0 || j % 32 == 0){
-          System.out.print(2);
+          //System.out.print(2);
           continue;
         }
         if (red[i][j] < 60 && green[i][j] < 60 && blue[i][j] < 60) {
-          System.out.print(0);
+          //System.out.print(0);
         } else {
-          System.out.print(1);
+          //System.out.print(1);
         }
       }
-      System.out.println();
+      //System.out.println();
     }
     long code = 0;
-    System.out.println(maxSize/dotSize);
+    //System.out.println(maxSize/dotSize);
     int k = 0;
     for (int i = 1; i < maxSize/dotSize/2; i++) {
       for(int j = 1; j < maxSize/dotSize/2; j++) {
@@ -92,12 +92,12 @@ public class Code {
           if(nrBlack[i][j] > nrTotal[i][j]/4) {
             code += 1;
           }
-          System.out.println(i + " " + j);
+          //System.out.println(i + " " + j);
         }
       }
      // System.out.println();
     }
-    System.out.println(pixels.size());
+    //System.out.println(pixels.size());
     return code;
   }
 
@@ -121,7 +121,7 @@ public class Code {
       Line d2 = new Line(corners[1], corners[2]);
       Point center = d1.intersect(d2);
       if(realCorners[0].getX() == 0 && realCorners[0].getY() == 0 && realCorners[1].getX() == 512 && realCorners[1].getY() == 512) {
-        System.out.println(center.getX() + " " + center.getY());
+        //System.out.println(center.getX() + " " + center.getY());
       }
      // System.out.print(corners[0].getX() + " " + corners[0].getY() + " " + corners[1].getX() + " " + corners[1].getY() + " " );
       //System.out.print(corners[2].getX() + " " + corners[2].getY() + " " + corners[3].getX() + " " + corners[3].getY() + "\n\n\n\n" );
@@ -138,10 +138,10 @@ public class Code {
       Point[] corners3 = new Point[]{mid31, center, corners[2], mid43};
       Point[] corners4 = new Point[]{center, mid24, mid43, corners[3]};
       if(realCorners[0].getX() == 0 && realCorners[0].getY() == 0 && realCorners[1].getX() == 512 && realCorners[1].getY() == 512) {
-        System.out.println("*****");
-        System.out.println(center.getX() + " " + center.getY());
-        System.out.println(mid12.getX() + " " + mid12.getY());
-        System.out.println(mid43.getX() + " " + mid43.getY());
+        //System.out.println("*****");
+        //System.out.println(center.getX() + " " + center.getY());
+        //System.out.println(mid12.getX() + " " + mid12.getY());
+        //System.out.println(mid43.getX() + " " + mid43.getY());
       }
       int midX = ((int)realCorners[1].getX() + (int)realCorners[0].getX())/2 + 1;
       int midY = ((int)realCorners[1].getY() + (int)realCorners[0].getY())/2 + 1;
