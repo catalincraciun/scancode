@@ -12,23 +12,27 @@ import java.awt.image.WritableRaster;
  */
 public class PictureUtils {
 
-  /** The internal image representation of this picture. */
+  /**
+   * The internal image representation of this picture.
+   */
   private final BufferedImage image;
 
   /**
    * Construct a new Picture object from the specified image.
-   * 
-   * @param image
-   *          the internal representation of the image.
+   *
+   * @param image the internal representation of the image.
    */
   public PictureUtils(BufferedImage image) {
     this.image = image;
   }
 
+  public static boolean isInBounds(PictureUtils picture, int x, int y) {
+    return x >= 0 && x < picture.getWidth() && y >= 0 && y < picture.getHeight();
+  }
 
   /**
    * Return the internal image represented by the Picture.
-   * 
+   *
    * @return the <tt>BufferedImage</tt> associated with this <tt>Picture</tt>.
    */
   protected BufferedImage getImage() {
@@ -37,7 +41,7 @@ public class PictureUtils {
 
   /**
    * Return the width of the <tt>Picture</tt>.
-   * 
+   *
    * @return the width of this <tt>Picture</tt>.
    */
   public int getWidth() {
@@ -46,7 +50,7 @@ public class PictureUtils {
 
   /**
    * Return the height of the <tt>Picture</tt>.
-   * 
+   *
    * @return the height of this <tt>Picture</tt>.
    */
   public int getHeight() {
@@ -56,15 +60,12 @@ public class PictureUtils {
   /**
    * Return the colour components (red, green, then blue) of the pixel-value
    * located at (x,y).
-   * 
-   * @param x
-   *          x-coordinate of the pixel value to return
-   * @param y
-   *          y-coordinate of the pixel value to return
+   *
+   * @param x x-coordinate of the pixel value to return
+   * @param y y-coordinate of the pixel value to return
    * @return the RGB components of the pixel-value located at (x,y).
-   * @throws ArrayIndexOutOfBoundsException
-   *           if the specified pixel-location is not contained within the
-   *           boundaries of this picture.
+   * @throws ArrayIndexOutOfBoundsException if the specified pixel-location is not contained within
+   * the boundaries of this picture.
    */
   public Color getPixel(int x, int y) {
     int rgb = image.getRGB(x, y);
@@ -121,9 +122,5 @@ public class PictureUtils {
       }
     }
     return hashCode;
-  }
-
-  public static boolean isInBounds(PictureUtils picture, int x, int y){
-    return x >= 0 && x < picture.getWidth() && y >= 0 && y < picture.getHeight();
   }
 }

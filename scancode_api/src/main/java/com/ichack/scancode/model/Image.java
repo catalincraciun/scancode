@@ -33,12 +33,11 @@ public class Image {
     try {
       this.bufferedImage = ImageIO.read(new File(DEFAULT_LOCATION));
       sideLength = bufferedImage.getWidth() / 16;
-    }
-    catch (IOException e) {
+    } catch (IOException e) {
       Logger.getGlobal().log(Level.SEVERE, String.valueOf(e));
     }
 
-     for (int i = 0; i < 33; i ++) {
+    for (int i = 0; i < 33; i++) {
       if ((code & ((long) 1 << (32 - i))) != 0L) {
         drawTopLeft(i);
       }
@@ -66,9 +65,9 @@ public class Image {
   private void drawCircle(int centerX, int centerY) {
     int radius = sideLength * 3 / 8;
 
-    for (int i = centerX - radius; i <= centerX + radius; i ++) {
+    for (int i = centerX - radius; i <= centerX + radius; i++) {
       for (int j = centerY - (int) Math.sqrt(radius * radius - (i - centerX) * (i - centerX));
-           j <= centerY + (int) Math.sqrt(radius * radius - (i - centerX) * (i - centerX)); j ++) {
+          j <= centerY + (int) Math.sqrt(radius * radius - (i - centerX) * (i - centerX)); j++) {
         bufferedImage.setRGB(i, j, new Color(0, 0, 0).getRGB());
       }
     }

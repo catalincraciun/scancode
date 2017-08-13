@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ScanCodeController {
 
   /* The number of codes we can generate */
-  private static final long UPPER_BOUND = 8589934591L;
+  private static final long UPPER_BOUND = 8589934590L;
   /* API Key for simple usage authorisation */
   private static final String API_KEY =
       "7D8s2DJK23iD92jdDJksqEQewscxnr24j2Dsncsksddsjejdmnds2";
@@ -44,7 +44,7 @@ public class ScanCodeController {
   }
 
   private long getUniqueCode() {
-    long rand = ThreadLocalRandom.current().nextLong(UPPER_BOUND);
+    long rand = ThreadLocalRandom.current().nextLong(UPPER_BOUND) + 1;
     while (storage.containsData(rand)) {
       rand = ThreadLocalRandom.current().nextLong(UPPER_BOUND);
     }
@@ -53,8 +53,8 @@ public class ScanCodeController {
 
   @RequestMapping("/generateCode")
   public ResponseEntity<GeneratedCode> generateCode(
-    @RequestParam(value="data", defaultValue="null") String data,
-    @RequestParam(value="apiKey", defaultValue="null") String clientKey) {
+      @RequestParam(value = "data", defaultValue = "null") String data,
+      @RequestParam(value = "apiKey", defaultValue = "null") String clientKey) {
     if (clientKey.equals(API_KEY)) {
       // Authorised access
       try {
@@ -72,14 +72,14 @@ public class ScanCodeController {
     return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
   }
 
-  @RequestMapping(value="/scanCode", method=RequestMethod.POST)
+  @RequestMapping(value = "/scanCode", method = RequestMethod.POST)
   public ResponseEntity<ScanResult> scanCode(@RequestBody Map<String, Object> map) {
     if (!map.containsKey("apiKey") || !map.containsKey("image")) {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    String base64 = (String)map.get("image");
-    String userApiKey = (String)map.get("apiKey");
+    String base64 = (String) map.get("image");
+    String userApiKey = (String) map.get("apiKey");
     if (API_KEY.equals(userApiKey)) {
       // Authorised access
       try {

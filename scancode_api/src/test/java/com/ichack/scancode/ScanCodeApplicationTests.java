@@ -26,6 +26,62 @@ public class ScanCodeApplicationTests {
   private static final String API_KEY = "7D8s2DJK23iD92jdDJksqEQewscxnr24j2Dsncsksddsjejdmnds2";
   private static final int SCAN_TESTS_NUMBER = 7;
   private static final int SCAN_GENERATED_TESTS_NUMBER = 10;
+  private ScanCodeController controller = new ScanCodeController(new MockStorageGuard());
+
+  @Test
+  public void invalidAPIKey() {
+    HashMap<String, Object> inputScan = new HashMap<>();
+    inputScan.put("image", "my_image");
+    inputScan.put("apiKey", "invalid_key");
+
+    Assert.assertEquals(
+        new ResponseEntity<ScanResult>(HttpStatus.UNAUTHORIZED),
+        controller.scanCode(inputScan));
+  }
+
+  @Test
+  public void scanCodes() {
+    HashMap<String, Object> inputScan = new HashMap<>();
+    inputScan.put("apiKey", API_KEY);
+
+    try {
+      for (int i = 0; i < SCAN_TESTS_NUMBER; i++) {
+        BufferedImage originalImage =
+            ImageIO.read(new File("src/test/resources/test" + i + "_input.JPG"));
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(originalImage, "jpg", baos);
+        baos.flush();
+        byte[] imageInByte = baos.toByteArray();
+        baos.close();
+
+        String base64 = Base64.getEncoder().encodeToString(imageInByte);
+        inputScan.put("image", base64);
+
+        Assert.assertEquals(
+            new ResponseEntity<>(new ScanResult("test" + i), HttpStatus.OK),
+            controller.scanCode(inputScan));
+      }
+    } catch (IOException e) {
+      Logger.getGlobal().log(Level.SEVERE, String.valueOf(e));
+    }
+  }
+
+  @Test
+  public void scanGeneratedCodes() {
+    for (int i = 0; i < SCAN_GENERATED_TESTS_NUMBER; i++) {
+      ResponseEntity<GeneratedCode> result = controller.generateCode("generated" + i, API_KEY);
+      Assert.assertEquals(result.getStatusCode(), HttpStatus.OK);
+
+      HashMap<String, Object> inputScan = new HashMap<>();
+      inputScan.put("apiKey", API_KEY);
+      inputScan.put("image", result.getBody().getImage());
+
+      Assert.assertEquals(
+          new ResponseEntity<>(new ScanResult("generated" + i), HttpStatus.OK),
+          controller.scanCode(inputScan));
+    }
+  }
 
   private class MockStorageGuard implements StorageGuard {
 
@@ -59,63 +115,6 @@ public class ScanCodeApplicationTests {
         return map.get(code);
       }
       throw new NoSuchElementException("Code does not exist in storage");
-    }
-  }
-
-	private ScanCodeController controller = new ScanCodeController(new MockStorageGuard());
-
-	@Test
-  public void invalidAPIKey() {
-    HashMap<String, Object> inputScan = new HashMap<>();
-    inputScan.put("image", "my_image");
-    inputScan.put("apiKey", "invalid_key");
-
-    Assert.assertEquals(
-        new ResponseEntity<ScanResult>(HttpStatus.UNAUTHORIZED),
-        controller.scanCode(inputScan));
-  }
-
-  @Test
-  public void scanCodes() {
-	  HashMap<String, Object> inputScan = new HashMap<>();
-    inputScan.put("apiKey", API_KEY);
-
-    try {
-      for (int i = 0; i < SCAN_TESTS_NUMBER; i++) {
-        BufferedImage originalImage =
-            ImageIO.read(new File("src/test/resources/test" + i + "_input.JPG"));
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(originalImage, "jpg", baos);
-        baos.flush();
-        byte[] imageInByte = baos.toByteArray();
-        baos.close();
-
-        String base64 = Base64.getEncoder().encodeToString(imageInByte);
-        inputScan.put("image", base64);
-
-        Assert.assertEquals(
-            new ResponseEntity<>(new ScanResult("test" + i), HttpStatus.OK),
-            controller.scanCode(inputScan));
-      }
-    } catch(IOException e){
-      Logger.getGlobal().log(Level.SEVERE, String.valueOf(e));
-    }
-  }
-
-  @Test
-  public void scanGeneratedCodes() {
-	  for (int i = 0; i < SCAN_GENERATED_TESTS_NUMBER; i++) {
-      ResponseEntity<GeneratedCode> result = controller.generateCode("generated" + i, API_KEY);
-      Assert.assertEquals(result.getStatusCode(), HttpStatus.OK);
-
-      HashMap<String, Object> inputScan = new HashMap<>();
-      inputScan.put("apiKey", API_KEY);
-      inputScan.put("image", result.getBody().getImage());
-
-      Assert.assertEquals(
-          new ResponseEntity<>(new ScanResult("generated" + i), HttpStatus.OK),
-          controller.scanCode(inputScan));
     }
   }
 }
