@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 public class FileStorageGuard implements StorageGuard {
 
   private HashMap<Long, String> map;
-  private static final String fileName = "src/main/resources/codes.snc";
+  private static final String FILENAME = "src/main/resources/codes.snc";
 
   public FileStorageGuard() {
     loadStorage();
@@ -43,7 +43,7 @@ public class FileStorageGuard implements StorageGuard {
 
   private void saveData() {
     try {
-      PrintWriter writer = new PrintWriter(fileName, "UTF-8");
+      PrintWriter writer = new PrintWriter(FILENAME, "UTF-8");
       for (Long key : map.keySet()) {
         writer.println(key + " " + map.get(key));
       }
@@ -56,7 +56,7 @@ public class FileStorageGuard implements StorageGuard {
   private void loadStorage() {
     Scanner scanner = null;
     try {
-      scanner = new Scanner(new File(fileName));
+      scanner = new Scanner(new File(FILENAME));
       map = new HashMap<>();
       while (scanner.hasNextInt()) {
         long code = scanner.nextInt();
@@ -65,7 +65,7 @@ public class FileStorageGuard implements StorageGuard {
         map.put(code, input);
       }
     } catch (FileNotFoundException e) {
-      File file = new File(fileName);
+      File file = new File(FILENAME);
       try {
         file.createNewFile();
         map = new HashMap<>();

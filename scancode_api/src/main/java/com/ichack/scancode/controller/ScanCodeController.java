@@ -12,7 +12,7 @@ import com.ichack.scancode.model.corners.CornerAnalyzer;
 import com.ichack.scancode.model.corners.PictureUtils;
 import com.ichack.scancode.model.StorageGuard;
 import com.ichack.scancode.model.Image;
-import com.ichack.scancode.model.codeanalyzer.Point;
+import com.ichack.scancode.model.corners.PointDouble;
 import com.ichack.scancode.responses.GeneratedCode;
 import com.ichack.scancode.responses.ScanResult;
 
@@ -73,7 +73,7 @@ public class ScanCodeController {
   @RequestMapping(value="/scanCode", method=RequestMethod.POST)
   public ResponseEntity<ScanResult> scanCode(@RequestBody Map<String, Object> map) {
     if (!map.containsKey("apiKey") || !map.containsKey("image")) {
-      return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     String base64 = (String)map.get("image");
@@ -84,11 +84,11 @@ public class ScanCodeController {
         Image myImage = new Image(base64);
         CornerAnalyzer analyzer = new CornerAnalyzer(new PictureUtils(myImage.getImage()));
         analyzer.calculateCorners();
-        Code code = new Code(myImage, new Point[]{
-            new Point(analyzer.getTopLeft().getY(), analyzer.getTopLeft().getX()),
-            new Point(analyzer.getTopRight().getY(), analyzer.getTopRight().getX()),
-            new Point(analyzer.getBottomLeft().getY(), analyzer.getBottomLeft().getX()),
-            new Point(analyzer.getBottomRight().getY(), analyzer.getBottomRight().getX())});
+        Code code = new Code(myImage, new PointDouble[]{
+            new PointDouble(analyzer.getTopLeft().getY(), analyzer.getTopLeft().getX()),
+            new PointDouble(analyzer.getTopRight().getY(), analyzer.getTopRight().getX()),
+            new PointDouble(analyzer.getBottomLeft().getY(), analyzer.getBottomLeft().getX()),
+            new PointDouble(analyzer.getBottomRight().getY(), analyzer.getBottomRight().getX())});
         return new ResponseEntity<>(
             new ScanResult(storage.getData(code.getCode())),
             HttpStatus.OK);
