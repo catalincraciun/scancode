@@ -25,7 +25,7 @@ public class ScanCodeApplicationTests {
 
   private static final String API_KEY = "7D8s2DJK23iD92jdDJksqEQewscxnr24j2Dsncsksddsjejdmnds2";
   private static final int SCAN_TESTS_NUMBER = 7;
-  private static final int SCAN_GENERATED_TESTS_NUMBER = 50;
+  private static final int SCAN_GENERATED_TESTS_NUMBER = 10;
 
   private class MockStorageGuard implements StorageGuard {
 

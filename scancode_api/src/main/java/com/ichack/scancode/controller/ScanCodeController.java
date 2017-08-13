@@ -27,7 +27,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ScanCodeController {
 
+  /* The number of codes we can generate */
   private static final long UPPER_BOUND = 8589934591L;
+  /* API Key for simple usage authorisation */
   private static final String API_KEY =
       "7D8s2DJK23iD92jdDJksqEQewscxnr24j2Dsncsksddsjejdmnds2";
 
@@ -78,7 +80,7 @@ public class ScanCodeController {
 
     String base64 = (String)map.get("image");
     String userApiKey = (String)map.get("apiKey");
-    if (API_KEY.equals(userApiKey) && !"null".equals(base64)) {
+    if (API_KEY.equals(userApiKey)) {
       // Authorised access
       try {
         Image myImage = new Image(base64);
