@@ -11,6 +11,12 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * This implementation of StorageGuard uses a HashMap to store objects
+ * and a file called codes.snc to persist the HashMap
+ *
+ * Note: This implementation is not thread-safe
+ */
 public class FileStorageGuard implements StorageGuard {
 
   private static final String FILENAME = "src/main/resources/codes.snc";

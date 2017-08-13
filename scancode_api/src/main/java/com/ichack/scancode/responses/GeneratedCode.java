@@ -20,7 +20,7 @@ public class GeneratedCode {
     }
 
     if (o instanceof GeneratedCode) {
-      GeneratedCode other = (GeneratedCode)o;
+      GeneratedCode other = (GeneratedCode) o;
       return other.image.equals(image) && other.id.equals(id);
     }
 

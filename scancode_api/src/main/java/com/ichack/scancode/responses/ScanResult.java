@@ -18,7 +18,7 @@ public class ScanResult {
     }
 
     if (o instanceof ScanResult) {
-      ScanResult other = (ScanResult)o;
+      ScanResult other = (ScanResult) o;
       return other.data.equals(data);
     }
 

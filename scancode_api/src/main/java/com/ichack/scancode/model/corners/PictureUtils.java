@@ -1,8 +1,6 @@
 package com.ichack.scancode.model.corners;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.WritableRaster;
 
 /**
  * A class that encapsulates and provides a simplified interface for
@@ -12,23 +10,36 @@ import java.awt.image.WritableRaster;
  */
 public class PictureUtils {
 
-  /** The internal image representation of this picture. */
+  /**
+   * The internal image representation of this picture.
+   */
   private final BufferedImage image;
 
   /**
    * Construct a new Picture object from the specified image.
-   * 
-   * @param image
-   *          the internal representation of the image.
+   *
+   * @param image the internal representation of the image.
    */
   public PictureUtils(BufferedImage image) {
     this.image = image;
   }
 
+  /**
+   * Checks if a point is contained inside the picture
+   *
+   * @param point The point for which you want to check
+   * @return True if point is inside the bounds of this picture
+   */
+  public boolean contains(Point<Integer> point) {
+    return point.getX() >= 0 &&
+        point.getX() < getWidth() &&
+        point.getY() >= 0 &&
+        point.getY() < getHeight();
+  }
 
   /**
    * Return the internal image represented by the Picture.
-   * 
+   *
    * @return the <tt>BufferedImage</tt> associated with this <tt>Picture</tt>.
    */
   protected BufferedImage getImage() {
@@ -37,7 +48,7 @@ public class PictureUtils {
 
   /**
    * Return the width of the <tt>Picture</tt>.
-   * 
+   *
    * @return the width of this <tt>Picture</tt>.
    */
   public int getWidth() {
@@ -46,7 +57,7 @@ public class PictureUtils {
 
   /**
    * Return the height of the <tt>Picture</tt>.
-   * 
+   *
    * @return the height of this <tt>Picture</tt>.
    */
   public int getHeight() {
@@ -56,31 +67,19 @@ public class PictureUtils {
   /**
    * Return the colour components (red, green, then blue) of the pixel-value
    * located at (x,y).
-   * 
-   * @param x
-   *          x-coordinate of the pixel value to return
-   * @param y
-   *          y-coordinate of the pixel value to return
+   *
+   * @param x x-coordinate of the pixel value to return
+   * @param y y-coordinate of the pixel value to return
    * @return the RGB components of the pixel-value located at (x,y).
-   * @throws ArrayIndexOutOfBoundsException
-   *           if the specified pixel-location is not contained within the
-   *           boundaries of this picture.
+   * @throws ArrayIndexOutOfBoundsException if the specified pixel-location is not contained within
+   * the boundaries of this picture.
    */
   public Color getPixel(int x, int y) {
     int rgb = image.getRGB(x, y);
     return new Color((rgb >> 16) & 0xff, (rgb >> 8) & 0xff, rgb & 0xff);
   }
 
-  public void setPixel(int x, int y, Color rgb) {
-
-    image.setRGB(x, y, 0xff000000 | (((0xff & rgb.getRed()) << 16)
-        | ((0xff & rgb.getGreen()) << 8) | (0xff & rgb.getBlue())));
-  }
-
-  public boolean contains(int x, int y) {
-    return x >= 0 && y >= 0 && x < getWidth() && y < getHeight();
-  }
-
+  @Override
   public boolean equals(Object otherO) {
     if (otherO == null) {
       return false;
@@ -110,6 +109,7 @@ public class PictureUtils {
     return true;
   }
 
+  @Override
   public int hashCode() {
     if (image == null) {
       return -1;
@@ -121,9 +121,5 @@ public class PictureUtils {
       }
     }
     return hashCode;
-  }
-
-  public static boolean isInBounds(PictureUtils picture, int x, int y){
-    return x >= 0 && x < picture.getWidth() && y >= 0 && y < picture.getHeight();
   }
 }
