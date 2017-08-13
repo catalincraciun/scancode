@@ -60,7 +60,7 @@ public class ScanCodeController {
         Image generatedImage = new Image(rand);
         storage.add(rand, data);
         return new ResponseEntity<>(
-            new GeneratedCode(generatedImage.getBase64()),
+            new GeneratedCode(rand, generatedImage.getBase64()),
             HttpStatus.OK);
       } catch (Exception e) {
         Logger.getGlobal().log(Level.SEVERE, String.valueOf(e));
