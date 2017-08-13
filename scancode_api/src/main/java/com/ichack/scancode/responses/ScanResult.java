@@ -1,15 +1,14 @@
 package com.ichack.scancode.responses;
 
+/**
+ * Models the response of the API for the 'scanCode' method
+ */
 public class ScanResult {
 
-  private String data;
+  private final String data;
 
   public ScanResult(String data) {
     this.data = data;
-  }
-
-  public String getData() {
-    return data;
   }
 
   @Override

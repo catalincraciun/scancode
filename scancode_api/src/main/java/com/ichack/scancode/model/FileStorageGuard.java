@@ -5,14 +5,16 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class FileStorageGuard implements StorageGuard {
 
-  private HashMap<Long, String> map;
   private static final String FILENAME = "src/main/resources/codes.snc";
+  private HashMap<Long, String> map;
 
   public FileStorageGuard() {
     loadStorage();
@@ -20,7 +22,7 @@ public class FileStorageGuard implements StorageGuard {
 
   @Override
   public boolean containsData(long code) {
-    return map.containsKey(code);
+    return map != null && map.containsKey(code);
   }
 
   @Override
@@ -28,55 +30,49 @@ public class FileStorageGuard implements StorageGuard {
     if (map != null && map.containsKey(code)) {
       return map.get(code);
     }
-    return "null";
+    throw new NoSuchElementException("There is no data for that code");
   }
 
   @Override
   public void add(long code, String data) {
     if (map != null) {
-      if (!map.containsKey(code)) {
-        map.put(code, data);
-        saveData();
-      }
+      map.put(code, data);
+      saveData();
     }
   }
 
   private void saveData() {
     try {
       PrintWriter writer = new PrintWriter(FILENAME, "UTF-8");
-      for (Long key : map.keySet()) {
-        writer.println(key + " " + map.get(key));
+      for (Map.Entry<Long, String> entry : map.entrySet()) {
+        writer.println(entry.getKey() + " " + entry.getValue());
       }
       writer.close();
     } catch (IOException e) {
-      e.printStackTrace();
+      Logger.getGlobal().log(Level.SEVERE, String.valueOf(e));
     }
   }
 
   private void loadStorage() {
-    Scanner scanner = null;
-    try {
-      scanner = new Scanner(new File(FILENAME));
-      map = new HashMap<>();
-      while (scanner.hasNextInt()) {
-        long code = scanner.nextInt();
-        String input = scanner.next();
-
-        map.put(code, input);
+    File file = new File(FILENAME);
+    if (file.exists() && file.isFile()) {
+      try (Scanner scanner = new Scanner(new File(FILENAME))) {
+        map = new HashMap<>();
+        while (scanner.hasNextInt()) {
+          map.put(scanner.nextLong(), scanner.next());
+        }
+      } catch (FileNotFoundException e) {
+        Logger.getGlobal().log(Level.SEVERE, String.valueOf(e));
       }
-    } catch (FileNotFoundException e) {
-      File file = new File(FILENAME);
+    } else {
       try {
-        file.createNewFile();
+        if (!file.createNewFile()) {
+          Logger.getGlobal().log(Level.SEVERE, "Could not create file for storage!!");
+        }
         map = new HashMap<>();
       } catch (Exception fileError) {
         Logger.getGlobal().log(Level.SEVERE, String.valueOf(fileError));
       }
-    } finally {
-      if (scanner != null) {
-        scanner.close();
-      }
     }
   }
-
 }

@@ -1,15 +1,14 @@
 package com.ichack.scancode.responses;
 
+/**
+ * Models the response of the API for the 'generateCode' method
+ */
 public class GeneratedCode {
 
-  private String image;
+  private final String image;
 
   public GeneratedCode(String image) {
     this.image = image;
-  }
-
-  public String getImage() {
-    return image;
   }
 
   @Override
