@@ -7,17 +7,17 @@ import java.util.List;
 
 public class CornerAnalyzer {
 
+  private static final int BLACK_SENSITIVITY = 60;
     private static final Color borderColor = new Color(0, 0, 0);
     private static final Color cyan = new Color (0, 220, 220);
     private PictureUtils picture;
     private boolean[][] visited;
     private List<Integer> xl;
     private List<Integer> yl;
-    private static final int blackSensitivity = 60;
-    private Point topLeft;
-    private Point topRight;
-    private Point bottomLeft;
-    private Point bottomRight;
+    private Point<Integer> topLeft;
+    private Point<Integer> topRight;
+    private Point<Integer> bottomLeft;
+    private Point<Integer> bottomRight;
 
     public CornerAnalyzer(PictureUtils picture) {
       xl = new ArrayList<>();
@@ -30,12 +30,12 @@ public class CornerAnalyzer {
     private void contour(){
         for(int x = 0; x < picture.getWidth(); x++){
             for(int y = 0; y < picture.getHeight(); y++){
-                if(picture.getPixel(x, y).sameColor(borderColor, blackSensitivity)
+                if(picture.getPixel(x, y).sameColor(borderColor, BLACK_SENSITIVITY)
                         && checkPixel(x, y) && !visited[x][y]){
                     helper(x, y);
                     visited[x][y] = true;
                     return;
-                } else if(!picture.getPixel(x, y).sameColor(borderColor, blackSensitivity )) {
+                } else if(!picture.getPixel(x, y).sameColor(borderColor, BLACK_SENSITIVITY )) {
                   visited[x][y] = true;
                 }
             }
@@ -47,19 +47,19 @@ public class CornerAnalyzer {
         check(xl, yl);
     }
 
-    public Point getTopLeft() {
+    public Point<Integer> getTopLeft() {
       return topLeft;
     }
 
-    public Point getTopRight() {
+    public Point<Integer> getTopRight() {
       return topRight;
     }
 
-    public Point getBottomLeft() {
+    public Point<Integer> getBottomLeft() {
       return bottomLeft;
     }
 
-    public Point getBottomRight() {
+    public Point<Integer> getBottomRight() {
       return bottomRight;
     }
 
@@ -68,7 +68,7 @@ public class CornerAnalyzer {
         for(int i = -5; i <= 5; i++){
             for(int j = -5; j <= 5; j++){
                 if(PictureUtils.isInBounds(picture, x + i, y + j)){
-                    if(picture.getPixel(x + i, y + j).sameColor(cyan, blackSensitivity )){
+                    if(picture.getPixel(x + i, y + j).sameColor(cyan, BLACK_SENSITIVITY )){
                         success = true;
                     }
                 }
@@ -79,19 +79,19 @@ public class CornerAnalyzer {
     }
 
     private void helper(int x, int y){
-      Deque<Point> queue = new ArrayDeque();
-      queue.push(new Point(x, y));
+      Deque<Point<Integer>> queue = new ArrayDeque();
+      queue.push(new Point<>(x, y));
       while (!queue.isEmpty()) {
-        Point popped = queue.pollLast();
+        Point<Integer> popped = queue.pollLast();
         xl.add(popped.getX());
         yl.add(popped.getY());
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 if (PictureUtils.isInBounds(picture, popped.getX() + i, popped.getY() + j) &&
-                        borderColor.sameColor(picture.getPixel(popped.getX() + i, popped.getY() + j), blackSensitivity )) {
+                        borderColor.sameColor(picture.getPixel(popped.getX() + i, popped.getY() + j), BLACK_SENSITIVITY )) {
                     if(!visited[popped.getX() + i][popped.getY() + j]) {
                         visited[popped.getX() + i][popped.getY() + j] = true;
-                        queue.addLast(new Point(popped.getX() + i, popped.getY() + j));
+                        queue.addLast(new Point<>(popped.getX() + i, popped.getY() + j));
                     }
                 }
             }
@@ -126,7 +126,7 @@ public class CornerAnalyzer {
         }
       }
 
-      topLeft = new Point(bestX, bestY);
+      topLeft = new Point<>(bestX, bestY);
 
       dist = 0;
       bestX = 0;
@@ -139,7 +139,7 @@ public class CornerAnalyzer {
         }
       }
 
-      topRight = new Point(bestX, bestY);
+      topRight = new Point<>(bestX, bestY);
 
       dist = 0;
       bestX = 0;
@@ -152,7 +152,7 @@ public class CornerAnalyzer {
         }
       }
 
-      bottomRight = new Point(bestX, bestY);
+      bottomRight = new Point<>(bestX, bestY);
 
       dist = 0;
       bestX = 0;
@@ -165,6 +165,6 @@ public class CornerAnalyzer {
         }
       }
 
-      bottomLeft = new Point(bestX, bestY);
+      bottomLeft = new Point<>(bestX, bestY);
     }
 }

@@ -1,24 +1,26 @@
 package com.ichack.scancode.model.codeanalyzer;
 
-import java.awt.*;
+import java.awt.Color;
+import com.ichack.scancode.model.corners.PointDouble;
 
 /**
- * Created by paul on 04/02/17.
+ * A LocatedPixel is composite of a Color and a Point with double coordinates
  */
-public class LocatedPixel {
-  Color pixel;
-  Point point;
+class LocatedPixel {
 
-  public LocatedPixel(Color pixel, Point point) {
+  private final Color pixel;
+  private final PointDouble point;
+
+  LocatedPixel(Color pixel, PointDouble point) {
     this.pixel = pixel;
     this.point = point;
   }
 
-  public Color getPixel() {
+  Color getPixel() {
     return pixel;
   }
 
-  public Point getPoint() {
+  PointDouble getPoint() {
     return point;
   }
 }

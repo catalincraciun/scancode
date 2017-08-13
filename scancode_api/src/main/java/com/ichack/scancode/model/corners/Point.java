@@ -1,29 +1,25 @@
 package com.ichack.scancode.model.corners;
 
-public class Point {
+/**
+ * Models a generic point with two coordinates
+ * @param <T> The type of the coordinates
+ */
+public class Point<T> {
 
-  private final int x;
-  private final int y;
+  private final T x;
+  private final T y;
 
-  public Point(int x, int y) {
+  public Point(T x, T y) {
     this.x = x;
     this.y = y;
   }
 
-  public int getX() {
+  public T getX() {
     return x;
   }
 
-  public int getY() {
+  public T getY() {
     return y;
-  }
-
-  public Point setX(int newX) {
-    return new Point(newX, y);
-  }
-
-  public Point setY(int newY) {
-    return new Point(x, newY);
   }
 
   @Override

@@ -1,84 +1,71 @@
 package com.ichack.scancode.model.codeanalyzer;
 
+import com.ichack.scancode.model.corners.PointDouble;
+
 /**
- * Created by paul on 04/02/17.
+ * Models a line composite of two Points with double coordinates
  */
-public class Line {
-  private final Point p1,p2;
-  private final double a,b,c;
+class Line {
+
+  private static final double EPSILON = 0.001;
+
+  private final PointDouble p1;
+  private final PointDouble p2;
+
+  private final double a;
+  private final double b;
+  private final double c;
+
   private final boolean isVertical;
-  private static double epsilon = 0.001;
 
-  public double getA() {
-    return a;
-  }
-
-  public double getB() {
-    return b;
-  }
-
-  public double getC() {
-    return c;
-  }
-
-  public Line(Point p1, Point p2) {
+  Line(PointDouble p1, PointDouble p2) {
     this.p1 = p1;
     this.p2 = p2;
-    if(!(p2.getY() - p1.getY() < epsilon && p1.getY() - p2.getY() < epsilon)) {
+    if (!(p2.getY() - p1.getY() < EPSILON && p1.getY() - p2.getY() < EPSILON)) {
       this.a = 1;
       this.b = (p2.getX() - p1.getX()) / (p1.getY() - p2.getY());
       this.c = -(a * p1.getX() + b * p1.getY());
       isVertical = false;
-    }
-    else {
+    } else {
       this.a = 0;
       this.b = 1;
       this.c = -p1.getY();
       isVertical = true;
     }
-
   }
 
-
-  public Point getMiddle() {
-    return new Point ( (p1.getX() + p2.getX())/2, (p1.getY() + p2.getY())/2);
+  private double getA() {
+    return a;
   }
 
-  public Point getMiddle(double dist1) {
-    return new Point ( (p2.getX() - p1.getX())*dist1 + p1.getX(), (p2.getY() - p1.getY())*dist1 + p1.getY());
-
+  private double getB() {
+    return b;
   }
 
+  private double getC() {
+    return c;
+  }
 
-  public Point intersect(Line other) {
-    if (!(isVertical || other.isVertical)) {
-      if(other.getB() == getB())
-        System.out.println("*");
-      double y = (getC() - other.getC()) / (other.getB() - getB());
-      return new Point(
-              -getC() - y * getB(),
-              y);
+  PointDouble getMiddle(double dist1) {
+    return new PointDouble(
+        (p2.getX() - p1.getX()) * dist1 + p1.getX(),
+        (p2.getY() - p1.getY()) * dist1 + p1.getY());
+  }
+
+  PointDouble intersect(Line other) {
+    if (!isVertical && !other.isVertical) {
+      double y = (c - other.getC()) / (other.getB() - b);
+      return new PointDouble(-c - y * b, y);
+    } else if (isVertical) {
+      double y = c;
+      return new PointDouble((-other.getC() - other.getB() * y) / other.getA(), y);
     } else {
-      if(isVertical){
-        double y = getC();
-        return new Point(
-                (-other.getC() - other.getB()*y)/ other.getA(),
-                y
-        );
-      }
-      else {
-        double y = other.getC();
-        return new Point(
-                (-getC() - getB()*y)/ getA(),
-                y
-        );
-      }
-      //System.out.println(p1.getX() + " " + p1.getY() + p2.getX() + p2.getY());
-      //System.out.println(other.p1.getX() + " " + other.p1.getY() + other.p2.getX() + other.p2.getY());
+      double y = other.getC();
+      return new PointDouble((-c - b * y) / a, y);
     }
   }
 
-  public double length() {
+  double length() {
     return p1.distanceTo(p2);
   }
 }

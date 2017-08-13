@@ -25,7 +25,7 @@ public class Color {
   /**
    * Default Construct. Construct a new Color object with the specified
    * intensity values for the red, green and blue components.
-   * 
+   *
    * @param red
    *          the intensity of the red component contributed to this Color.
    * @param green
@@ -41,7 +41,7 @@ public class Color {
 
   /**
    * Return the contribution of the red component to <tt>this</tt> Color.
-   * 
+   *
    * @return the intensity of the red component.
    */
   public int getRed() {
@@ -50,7 +50,7 @@ public class Color {
 
   /**
    * Return the contribution of the green component to <tt>this</tt> Color.
-   * 
+   *
    * @return the intensity of the green component.
    */
   public int getGreen() {
@@ -59,7 +59,7 @@ public class Color {
 
   /**
    * Return the contribution of the blue component to <tt>this</tt> Color.
-   * 
+   *
    * @return the intensity of the blue component.
    */
   public int getBlue() {
@@ -68,7 +68,7 @@ public class Color {
 
   /**
    * Set the contribution of the red component to <tt>this</tt> Color.
-   * 
+   *
    * @param red
    *          the new intensity value of the red component.
    */
@@ -78,7 +78,7 @@ public class Color {
 
   /**
    * Set the contribution of the green component to <tt>this</tt> Color.
-   * 
+   *
    * @param green
    *          the new intensity value of the green component.
    */
@@ -88,7 +88,7 @@ public class Color {
 
   /**
    * Set the contribution of the blue component to <tt>this</tt> Color.
-   * 
+   *
    * @param blue
    *          the new intensity value of the blue component.
    */
@@ -98,7 +98,7 @@ public class Color {
 
   public boolean sameColor(Color otherPixel, int sensitivity){
     return Math.abs(otherPixel.getRed() - red) < sensitivity &&
-            Math.abs(otherPixel.getBlue() - blue) < sensitivity &&
-            Math.abs(otherPixel.getGreen() - green) < sensitivity;
+        Math.abs(otherPixel.getBlue() - blue) < sensitivity &&
+        Math.abs(otherPixel.getGreen() - green) < sensitivity;
   }
 }
