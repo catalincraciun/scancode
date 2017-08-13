@@ -1,8 +1,6 @@
 package com.ichack.scancode.model.corners;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.WritableRaster;
 
 /**
  * A class that encapsulates and provides a simplified interface for
@@ -26,8 +24,17 @@ public class PictureUtils {
     this.image = image;
   }
 
-  public static boolean isInBounds(PictureUtils picture, int x, int y) {
-    return x >= 0 && x < picture.getWidth() && y >= 0 && y < picture.getHeight();
+  /**
+   * Checks if a point is contained inside the picture
+   *
+   * @param point The point for which you want to check
+   * @return True if point is inside the bounds of this picture
+   */
+  public boolean contains(Point<Integer> point) {
+    return point.getX() >= 0 &&
+        point.getX() < getWidth() &&
+        point.getY() >= 0 &&
+        point.getY() < getHeight();
   }
 
   /**
@@ -72,16 +79,7 @@ public class PictureUtils {
     return new Color((rgb >> 16) & 0xff, (rgb >> 8) & 0xff, rgb & 0xff);
   }
 
-  public void setPixel(int x, int y, Color rgb) {
-
-    image.setRGB(x, y, 0xff000000 | (((0xff & rgb.getRed()) << 16)
-        | ((0xff & rgb.getGreen()) << 8) | (0xff & rgb.getBlue())));
-  }
-
-  public boolean contains(int x, int y) {
-    return x >= 0 && y >= 0 && x < getWidth() && y < getHeight();
-  }
-
+  @Override
   public boolean equals(Object otherO) {
     if (otherO == null) {
       return false;
@@ -111,6 +109,7 @@ public class PictureUtils {
     return true;
   }
 
+  @Override
   public int hashCode() {
     if (image == null) {
       return -1;

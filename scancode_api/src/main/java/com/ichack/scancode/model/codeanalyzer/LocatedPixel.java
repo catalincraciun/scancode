@@ -4,7 +4,7 @@ import java.awt.Color;
 import com.ichack.scancode.model.corners.PointDouble;
 
 /**
- * A LocatedPixel is composite of a Color and a Point with double coordinates
+ * A LocatedPixel is a pixel made of a Color and a Point with double coordinates
  */
 class LocatedPixel {
 

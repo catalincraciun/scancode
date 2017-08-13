@@ -10,10 +10,13 @@ public class CornerAnalyzer {
   private static final int BLACK_SENSITIVITY = 60;
   private static final Color borderColor = new Color(0, 0, 0);
   private static final Color cyan = new Color(0, 220, 220);
+
   private PictureUtils picture;
   private boolean[][] visited;
+
   private List<Integer> xl;
   private List<Integer> yl;
+
   private Point<Integer> topLeft;
   private Point<Integer> topRight;
   private Point<Integer> bottomLeft;
@@ -67,10 +70,9 @@ public class CornerAnalyzer {
     boolean success = false;
     for (int i = -5; i <= 5; i++) {
       for (int j = -5; j <= 5; j++) {
-        if (PictureUtils.isInBounds(picture, x + i, y + j)) {
-          if (picture.getPixel(x + i, y + j).sameColor(cyan, BLACK_SENSITIVITY)) {
+        if (picture.contains(new Point<>(x + i, y + j)) &&
+            picture.getPixel(x + i, y + j).sameColor(cyan, BLACK_SENSITIVITY)) {
             success = true;
-          }
         }
       }
     }
@@ -79,21 +81,21 @@ public class CornerAnalyzer {
   }
 
   private void helper(int x, int y) {
-    Deque<Point<Integer>> queue = new ArrayDeque();
+    Deque<Point<Integer>> queue = new ArrayDeque<>();
     queue.push(new Point<>(x, y));
     while (!queue.isEmpty()) {
       Point<Integer> popped = queue.pollLast();
       xl.add(popped.getX());
       yl.add(popped.getY());
+
       for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
-          if (PictureUtils.isInBounds(picture, popped.getX() + i, popped.getY() + j) &&
-              borderColor.sameColor(picture.getPixel(popped.getX() + i, popped.getY() + j),
-                  BLACK_SENSITIVITY)) {
-            if (!visited[popped.getX() + i][popped.getY() + j]) {
-              visited[popped.getX() + i][popped.getY() + j] = true;
-              queue.addLast(new Point<>(popped.getX() + i, popped.getY() + j));
-            }
+          Point<Integer> next = new Point<>(popped.getX() + i, popped.getY() + j);
+          if (picture.contains(next) &&
+              borderColor.sameColor(picture.getPixel(next.getX(), next.getY()), BLACK_SENSITIVITY) &&
+              !visited[next.getX()][next.getY()]) {
+              visited[next.getX()][next.getY()] = true;
+              queue.addLast(next);
           }
         }
       }

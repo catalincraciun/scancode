@@ -19,7 +19,8 @@ public class Image {
 
   private final String base64;
   private BufferedImage bufferedImage;
-  private int sideLength = 0; //nr of squares in a row
+  /* Number of squares in a row */
+  private int sideLength = 0;
 
   public Image(String base64) throws IOException {
     this.base64 = base64;
