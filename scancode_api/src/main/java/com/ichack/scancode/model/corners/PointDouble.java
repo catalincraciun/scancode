@@ -1,5 +1,8 @@
 package com.ichack.scancode.model.corners;
 
+/**
+ * Extends the generic class Point providing a distanceTo method for double coords
+ */
 public class PointDouble extends Point<Double> {
 
   public PointDouble(double x, double y) {

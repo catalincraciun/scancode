@@ -1,5 +1,9 @@
 package com.ichack.scancode.model.corners;
 
+/**
+ * Models a generic point with two coordinates
+ * @param <T> The type of the coordinates
+ */
 public class Point<T> {
 
   private final T x;
