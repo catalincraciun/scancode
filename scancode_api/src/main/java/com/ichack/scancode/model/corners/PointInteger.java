@@ -10,7 +10,7 @@ public class PointInteger extends Point<Integer> {
   }
 
   /**
-   * Calculates the distance to another PointDouble
+   * Calculates the distance to another PointInteger
    *
    * @param other The point to calculate the distance to
    * @return A double representing the distance from this point to your point
