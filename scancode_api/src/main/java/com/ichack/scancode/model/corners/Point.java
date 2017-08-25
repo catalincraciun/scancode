@@ -1,29 +1,27 @@
 package com.ichack.scancode.model.corners;
 
 /**
- * Models a generic point with two coordinates
- *
- * @param <T> The type of the coordinates
+ * Models a generic point with two Number coordinates
  */
-public class Point<T> {
+public class Point {
 
   /**
    * The x coordinate of your point
    */
-  private final T x;
+  private final Number x;
 
   /**
    * The y coordinate of your point
    */
-  private final T y;
+  private final Number y;
 
   /**
-   * Constructs a point out of two coordinatines
+   * Constructs a point out of two Number coordinatines
    *
    * @param x The x coordinate of your point
    * @param y The y coordinate of your point
    */
-  public Point(T x, T y) {
+  public Point(Number x, Number y) {
     this.x = x;
     this.y = y;
   }
@@ -31,15 +29,26 @@ public class Point<T> {
   /**
    * @return The x coordinate of this point
    */
-  public T getX() {
+  public Number getX() {
     return x;
   }
 
   /**
    * @return The y coordinate of this point
    */
-  public T getY() {
+  public Number getY() {
     return y;
+  }
+
+  /**
+   * Computes the distance between this point and a given point.
+   *
+   * @param other the other point.
+   * @return a double representing the distance between the two points.
+   */
+  public double distanceTo(Point other) {
+    return Math.sqrt(Math.pow(this.x.doubleValue() - other.x.doubleValue(), 2)
+        + Math.pow(this.y.doubleValue() - other.y.doubleValue(), 2));
   }
 
   @Override

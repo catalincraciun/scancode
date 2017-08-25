@@ -1,6 +1,6 @@
 package com.ichack.scancode.model.codeanalyzer;
 
-import com.ichack.scancode.model.corners.PointDouble;
+import com.ichack.scancode.model.corners.Point;
 
 /**
  * Models a line composite of two Points with double coordinates
@@ -9,8 +9,8 @@ class Line {
 
   private static final double EPSILON = 0.001;
 
-  private final PointDouble p1;
-  private final PointDouble p2;
+  private final Point p1;
+  private final Point p2;
 
   private final double a;
   private final double b;
@@ -18,18 +18,18 @@ class Line {
 
   private final boolean isVertical;
 
-  Line(PointDouble p1, PointDouble p2) {
+  Line(Point p1, Point p2) {
     this.p1 = p1;
     this.p2 = p2;
-    if (!(p2.getY() - p1.getY() < EPSILON && p1.getY() - p2.getY() < EPSILON)) {
+    if (!(p2.getY().doubleValue() - p1.getY().doubleValue() < EPSILON && p1.getY().doubleValue() - p2.getY().doubleValue() < EPSILON)) {
       this.a = 1;
-      this.b = (p2.getX() - p1.getX()) / (p1.getY() - p2.getY());
-      this.c = -(a * p1.getX() + b * p1.getY());
+      this.b = (p2.getX().doubleValue() - p1.getX().doubleValue()) / (p1.getY().doubleValue() - p2.getY().doubleValue());
+      this.c = -(a * p1.getX().doubleValue() + b * p1.getY().doubleValue());
       isVertical = false;
     } else {
       this.a = 0;
       this.b = 1;
-      this.c = -p1.getY();
+      this.c = -p1.getY().doubleValue();
       isVertical = true;
     }
   }
@@ -46,22 +46,22 @@ class Line {
     return c;
   }
 
-  PointDouble getMiddle(double dist1) {
-    return new PointDouble(
-        (p2.getX() - p1.getX()) * dist1 + p1.getX(),
-        (p2.getY() - p1.getY()) * dist1 + p1.getY());
+  Point getMiddle(double dist1) {
+    return new Point(
+        (p2.getX().doubleValue() - p1.getX().doubleValue()) * dist1 + p1.getX().doubleValue(),
+        (p2.getY().doubleValue() - p1.getY().doubleValue()) * dist1 + p1.getY().doubleValue());
   }
 
-  PointDouble intersect(Line other) {
+  Point intersect(Line other) {
     if (!isVertical && !other.isVertical) {
       double y = (c - other.getC()) / (other.getB() - b);
-      return new PointDouble(-c - y * b, y);
+      return new Point(-c - y * b, y);
     } else if (isVertical) {
       double y = c;
-      return new PointDouble((-other.getC() - other.getB() * y) / other.getA(), y);
+      return new Point((-other.getC() - other.getB() * y) / other.getA(), y);
     } else {
       double y = other.getC();
-      return new PointDouble((-c - b * y) / a, y);
+      return new Point((-c - b * y) / a, y);
     }
   }
 
