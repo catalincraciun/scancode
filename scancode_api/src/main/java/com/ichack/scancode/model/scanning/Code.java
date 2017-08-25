@@ -1,15 +1,15 @@
-package com.ichack.scancode.model.codeanalyzer;
+package com.ichack.scancode.model.scanning;
 
-import com.ichack.scancode.model.corners.Point;
-import com.ichack.scancode.model.Image;
+import com.ichack.scancode.model.geometry.Line;
+import com.ichack.scancode.model.geometry.Point;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Code {
 
-  static final int DOT_SIZE = 32;
-  static final int MAX_SIZE = 512;
+  private static final int DOT_SIZE = 32;
+  private static final int MAX_SIZE = 512;
   private long code;
 
   public Code(Image img, Point[] corners) {
@@ -88,16 +88,16 @@ public class Code {
     } else {
       Line d1 = new Line(corners[0], corners[3]);
       Line d2 = new Line(corners[1], corners[2]);
-      Point center = d1.intersect(d2);
+      Point center = d1.getIntersection(d2);
       Line l12 = new Line(corners[0], corners[1]);
       Line l24 = new Line(corners[1], corners[3]);
       Line l43 = new Line(corners[3], corners[2]);
       Line l31 = new Line(corners[2], corners[0]);
-      Point mid12 = l12.getMiddle(l31.length() / (l24.length() + l31.length()));
-      Point mid24 = l24.getMiddle(l12.length() / (l43.length() + l12.length()));
-      Point mid43 = l43.getMiddle(l24.length() / (l31.length() + l24.length()));
+      Point mid12 = l12.getMiddle(l31.getLength() / (l24.getLength() + l31.getLength()));
+      Point mid24 = l24.getMiddle(l12.getLength() / (l43.getLength() + l12.getLength()));
+      Point mid43 = l43.getMiddle(l24.getLength() / (l31.getLength() + l24.getLength()));
       ;
-      Point mid31 = l31.getMiddle(l43.length() / (l12.length() + l43.length()));
+      Point mid31 = l31.getMiddle(l43.getLength() / (l12.getLength() + l43.getLength()));
       Point[] corners1 = new Point[]{corners[0], mid12, mid31, center};
       Point[] corners2 = new Point[]{mid12, corners[1], center, mid24};
       Point[] corners3 = new Point[]{mid31, center, corners[2], mid43};

@@ -1,4 +1,4 @@
-package com.ichack.scancode.model;
+package com.ichack.scancode.model.scanning;
 
 import java.awt.Color;
 import java.io.ByteArrayInputStream;

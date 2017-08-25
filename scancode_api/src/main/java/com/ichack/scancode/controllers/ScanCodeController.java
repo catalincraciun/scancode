@@ -1,18 +1,18 @@
-package com.ichack.scancode.controller;
+package com.ichack.scancode.controllers;
 
-import com.ichack.scancode.model.FileStorageGuard;
+import com.ichack.scancode.model.storage.FileStorageGuard;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.concurrent.ThreadLocalRandom;
 import java.io.IOException;
 
-import com.ichack.scancode.model.codeanalyzer.Code;
-import com.ichack.scancode.model.corners.CornerAnalyzer;
-import com.ichack.scancode.model.corners.PictureUtils;
-import com.ichack.scancode.model.StorageGuard;
-import com.ichack.scancode.model.Image;
-import com.ichack.scancode.model.corners.Point;
+import com.ichack.scancode.model.scanning.Code;
+import com.ichack.scancode.model.scanning.CornerAnalyzer;
+import com.ichack.scancode.model.scanning.PictureUtils;
+import com.ichack.scancode.model.storage.StorageGuard;
+import com.ichack.scancode.model.scanning.Image;
+import com.ichack.scancode.model.geometry.Point;
 import com.ichack.scancode.responses.GeneratedCode;
 import com.ichack.scancode.responses.ScanResult;
 

@@ -1,4 +1,4 @@
-package com.ichack.scancode.model;
+package com.ichack.scancode.model.storage;
 
 /**
  * Models the interaction with Storage

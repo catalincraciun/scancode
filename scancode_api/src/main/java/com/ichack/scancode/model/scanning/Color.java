@@ -1,4 +1,4 @@
-package com.ichack.scancode.model.corners;
+package com.ichack.scancode.model.scanning;
 
 /**
  * Models a color using the RGB direct color-model.

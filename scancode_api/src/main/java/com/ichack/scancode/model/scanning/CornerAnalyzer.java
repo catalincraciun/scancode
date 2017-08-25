@@ -1,5 +1,6 @@
-package com.ichack.scancode.model.corners;
+package com.ichack.scancode.model.scanning;
 
+import com.ichack.scancode.model.geometry.Point;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;

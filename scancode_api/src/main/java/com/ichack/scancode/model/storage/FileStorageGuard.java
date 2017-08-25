@@ -1,4 +1,4 @@
-package com.ichack.scancode.model;
+package com.ichack.scancode.model.storage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
