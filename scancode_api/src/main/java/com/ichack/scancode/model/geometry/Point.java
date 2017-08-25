@@ -1,4 +1,4 @@
-package com.ichack.scancode.model.corners;
+package com.ichack.scancode.model.geometry;
 
 /**
  * Models a generic point with two Number coordinates

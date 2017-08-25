@@ -1,7 +1,7 @@
-package com.ichack.scancode.model.codeanalyzer;
+package com.ichack.scancode.model.scanning;
 
 import java.awt.Color;
-import com.ichack.scancode.model.corners.Point;
+import com.ichack.scancode.model.geometry.Point;
 
 /**
  * A LocatedPixel is a pixel made of a Color and a Point with double coordinates

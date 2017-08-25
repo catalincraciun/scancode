@@ -1,11 +1,9 @@
-package com.ichack.scancode.model.codeanalyzer;
-
-import com.ichack.scancode.model.corners.Point;
+package com.ichack.scancode.model.geometry;
 
 /**
  * Models a line composite of two Points with double coordinates
  */
-class Line {
+public class Line {
 
   private static final double EPSILON = 0.001;
 
@@ -18,7 +16,7 @@ class Line {
 
   private final boolean isVertical;
 
-  Line(Point p1, Point p2) {
+  public Line(Point p1, Point p2) {
     this.p1 = p1;
     this.p2 = p2;
     if (!(p2.getY().doubleValue() - p1.getY().doubleValue() < EPSILON && p1.getY().doubleValue() - p2.getY().doubleValue() < EPSILON)) {
@@ -46,13 +44,13 @@ class Line {
     return c;
   }
 
-  Point getMiddle(double dist1) {
+  public Point getMiddle(double dist1) {
     return new Point(
         (p2.getX().doubleValue() - p1.getX().doubleValue()) * dist1 + p1.getX().doubleValue(),
         (p2.getY().doubleValue() - p1.getY().doubleValue()) * dist1 + p1.getY().doubleValue());
   }
 
-  Point intersect(Line other) {
+  public Point getIntersection(Line other) {
     if (!isVertical && !other.isVertical) {
       double y = (c - other.getC()) / (other.getB() - b);
       return new Point(-c - y * b, y);
@@ -65,7 +63,7 @@ class Line {
     }
   }
 
-  double length() {
+  public double getLength() {
     return p1.distanceTo(p2);
   }
 }

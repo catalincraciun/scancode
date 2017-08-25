@@ -1,7 +1,7 @@
 package com.ichack.scancode;
 
-import com.ichack.scancode.model.StorageGuard;
-import com.ichack.scancode.controller.ScanCodeController;
+import com.ichack.scancode.model.storage.StorageGuard;
+import com.ichack.scancode.controllers.ScanCodeController;
 import com.ichack.scancode.responses.GeneratedCode;
 import com.ichack.scancode.responses.ScanResult;
 
