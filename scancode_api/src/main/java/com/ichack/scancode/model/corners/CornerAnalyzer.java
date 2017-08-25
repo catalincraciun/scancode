@@ -23,7 +23,7 @@ public class CornerAnalyzer {
   private static final Color borderColor = new Color(0, 0, 0);
 
   /**
-   * The colour cyan, which is used for the background of the images.
+   * The colour cyan, which is used for the background of the codes.
    */
   private static final Color cyan = new Color(0, 220, 220);
 
@@ -86,9 +86,9 @@ public class CornerAnalyzer {
   /**
    * Calculates and stores the corners of the image in the designated fields.
    */
-  public void calculateCorners() {
+  public void scanCorners() {
     contour();
-    corners(borderPoints);
+    computeCorners(borderPoints);
   }
 
   /**
@@ -184,18 +184,18 @@ public class CornerAnalyzer {
    *
    * @param borderPoints list of points representing the border.
    */
-  private void corners(List<PointInteger> borderPoints) {
+  private void computeCorners(List<PointInteger> borderPoints) {
     PointInteger middle;
 
-    double xm = borderPoints.get(0).getX();
-    double ym = borderPoints.get(0).getY();
+    double xMiddle = borderPoints.get(0).getX();
+    double yMiddle = borderPoints.get(0).getY();
 
     for (int i = 1; i < borderPoints.size(); i++) {
-      xm += borderPoints.get(i).getX();
-      ym += borderPoints.get(i).getY();
+      xMiddle += borderPoints.get(i).getX();
+      yMiddle += borderPoints.get(i).getY();
     }
 
-    middle = new PointInteger((int) (xm / borderPoints.size()), (int) (ym / borderPoints.size()));
+    middle = new PointInteger((int) (xMiddle / borderPoints.size()), (int) (yMiddle / borderPoints.size()));
 
     calculateTopLeft(borderPoints, middle);
     calculateTopRight(borderPoints, middle);

@@ -85,7 +85,7 @@ public class ScanCodeController {
       try {
         Image myImage = new Image(base64);
         CornerAnalyzer analyzer = new CornerAnalyzer(new PictureUtils(myImage.getImage()));
-        analyzer.calculateCorners();
+        analyzer.scanCorners();
         Code code = new Code(myImage, new PointDouble[]{
             new PointDouble(analyzer.getTopLeft().getY(), analyzer.getTopLeft().getX()),
             new PointDouble(analyzer.getTopRight().getY(), analyzer.getTopRight().getX()),
