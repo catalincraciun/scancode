@@ -16,7 +16,7 @@ public class Point {
   private final Number y;
 
   /**
-   * Constructs a point out of two Number coordinatines
+   * Constructs a point out of two Number coordinates
    *
    * @param x The x coordinate of your point
    * @param y The y coordinate of your point
@@ -43,8 +43,8 @@ public class Point {
   /**
    * Computes the distance between this point and a given point.
    *
-   * @param other the other point.
-   * @return a double representing the distance between the two points.
+   * @param other The other point
+   * @return A double representing the distance between the two points
    */
   public double distanceTo(Point other) {
     return Math.sqrt(Math.pow(this.x.doubleValue() - other.x.doubleValue(), 2)
@@ -55,5 +55,4 @@ public class Point {
   public String toString() {
     return "(" + x + ", " + y + ")";
   }
-
 }

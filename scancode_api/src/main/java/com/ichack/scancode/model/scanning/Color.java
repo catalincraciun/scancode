@@ -39,33 +39,6 @@ class Color {
   }
 
   /**
-   * Return the contribution of the red component to <tt>this</tt> Color.
-   *
-   * @return the intensity of the red component.
-   */
-  int getRed() {
-    return red;
-  }
-
-  /**
-   * Return the contribution of the green component to <tt>this</tt> Color.
-   *
-   * @return the intensity of the green component.
-   */
-  int getGreen() {
-    return green;
-  }
-
-  /**
-   * Return the contribution of the blue component to <tt>this</tt> Color.
-   *
-   * @return the intensity of the blue component.
-   */
-  int getBlue() {
-    return blue;
-  }
-
-  /**
    * Compares two colors using sensitivity
    *
    * @param otherColor The color you want to compare to
@@ -73,8 +46,8 @@ class Color {
    * @return True if colors are approximately the same
    */
   boolean sameColor(Color otherColor, int sensitivity) {
-    return Math.abs(otherColor.getRed() - red) < sensitivity &&
-        Math.abs(otherColor.getBlue() - blue) < sensitivity &&
-        Math.abs(otherColor.getGreen() - green) < sensitivity;
+    return Math.abs(otherColor.red - red) < sensitivity &&
+        Math.abs(otherColor.blue - blue) < sensitivity &&
+        Math.abs(otherColor.green - green) < sensitivity;
   }
 }
