@@ -36,10 +36,10 @@ public class CornerAnalyzer {
    * Four fields which are used to store the four detected corners
    * of the image, after the calculation is done.
    */
-  private PointInteger topLeft;
-  private PointInteger topRight;
-  private PointInteger bottomLeft;
-  private PointInteger bottomRight;
+  private Point topLeft;
+  private Point topRight;
+  private Point bottomLeft;
+  private Point bottomRight;
 
   /**
    * An array used to determine which pixels of the border have been
@@ -50,7 +50,7 @@ public class CornerAnalyzer {
   /**
    * A list used to remember the coordinates of the border pixels.
    */
-  private final List<PointInteger> borderPoints;
+  private final List<Point> borderPoints;
 
   /**
    * Construct a new CornerAnalyzer object from the given picture.
@@ -96,7 +96,7 @@ public class CornerAnalyzer {
    *
    * @return top left corner of the picture.
    */
-  public Point<Integer> getTopLeft() {
+  public Point getTopLeft() {
     return topLeft;
   }
 
@@ -105,7 +105,7 @@ public class CornerAnalyzer {
    *
    * @return top right corner of the picture.
    */
-  public Point<Integer> getTopRight() {
+  public Point getTopRight() {
     return topRight;
   }
 
@@ -114,7 +114,7 @@ public class CornerAnalyzer {
    *
    * @return bottom left corner of the picture.
    */
-  public Point<Integer> getBottomLeft() {
+  public Point getBottomLeft() {
     return bottomLeft;
   }
 
@@ -123,7 +123,7 @@ public class CornerAnalyzer {
    *
    * @return bottom right corner of the picture.
    */
-  public Point<Integer> getBottomRight() {
+  public Point getBottomRight() {
     return bottomRight;
   }
 
@@ -139,7 +139,7 @@ public class CornerAnalyzer {
     boolean success = false;
     for (int i = -5; i <= 5; i++) {
       for (int j = -5; j <= 5; j++) {
-        if (picture.contains(new Point<>(x + i, y + j)) &&
+        if (picture.contains(new Point(x + i, y + j)) &&
             picture.getPixel(x + i, y + j).sameColor(cyan, BLACK_SENSITIVITY)) {
             success = true;
         }
@@ -157,21 +157,22 @@ public class CornerAnalyzer {
    * @param y the y coordinate of the starting point.
    */
   private void bfsHelper(int x, int y) {
-    Deque<PointInteger> queue = new ArrayDeque<>();
-    queue.push(new PointInteger(x, y));
+    Deque<Point> queue = new ArrayDeque<>();
+    queue.push(new Point(x, y));
 
     while (!queue.isEmpty()) {
-      PointInteger popped = queue.pollLast();
+      Point popped = queue.pollLast();
       borderPoints.add(popped);
 
       for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
-          PointInteger next = new PointInteger(popped.getX() + i, popped.getY() + j);
+          Point next = new Point(popped.getX().intValue() + i, popped.getY().intValue() + j);
 
           if (picture.contains(next) &&
-              borderColor.sameColor(picture.getPixel(next.getX(), next.getY()), BLACK_SENSITIVITY) &&
-              !visited[next.getX()][next.getY()]) {
-              visited[next.getX()][next.getY()] = true;
+              borderColor.sameColor(picture.getPixel(next.getX().intValue(),
+                  next.getY().intValue()), BLACK_SENSITIVITY) &&
+              !visited[next.getX().intValue()][next.getY().intValue()]) {
+              visited[next.getX().intValue()][next.getY().intValue()] = true;
               queue.addLast(next);
           }
         }
@@ -184,18 +185,18 @@ public class CornerAnalyzer {
    *
    * @param borderPoints list of points representing the border.
    */
-  private void computeCorners(List<PointInteger> borderPoints) {
-    PointInteger middle;
+  private void computeCorners(List<Point> borderPoints) {
+    Point middle;
 
-    double xMiddle = borderPoints.get(0).getX();
-    double yMiddle = borderPoints.get(0).getY();
+    double xMiddle = borderPoints.get(0).getX().doubleValue();
+    double yMiddle = borderPoints.get(0).getY().doubleValue();
 
     for (int i = 1; i < borderPoints.size(); i++) {
-      xMiddle += borderPoints.get(i).getX();
-      yMiddle += borderPoints.get(i).getY();
+      xMiddle += borderPoints.get(i).getX().doubleValue();
+      yMiddle += borderPoints.get(i).getY().doubleValue();
     }
 
-    middle = new PointInteger((int) (xMiddle / borderPoints.size()), (int) (yMiddle / borderPoints.size()));
+    middle = new Point(xMiddle / borderPoints.size(), yMiddle / borderPoints.size());
 
     calculateTopLeft(borderPoints, middle);
     calculateTopRight(borderPoints, middle);
@@ -209,10 +210,10 @@ public class CornerAnalyzer {
    * @param borderPoints a list representing the border points.
    * @param middle the middle point of the image.
    */
-  private void calculateTopLeft(List<PointInteger> borderPoints, PointInteger middle) {
+  private void calculateTopLeft(List<Point> borderPoints, Point middle) {
     double dist = 0;
 
-    for (PointInteger borderPoint : borderPoints) {
+    for (Point borderPoint : borderPoints) {
       if (isInTopLeftCorner(borderPoint, middle) &&
           dist < borderPoint.distanceTo(middle)) {
         dist = borderPoint.distanceTo(middle);
@@ -230,8 +231,9 @@ public class CornerAnalyzer {
    * @return a boolean representing whether the given point is in
    * the top left quarter.
    */
-  private boolean isInTopLeftCorner(PointInteger point, PointInteger middle) {
-    return point.getX() < middle.getX() && point.getY() < middle.getY();
+  private boolean isInTopLeftCorner(Point point, Point middle) {
+    return point.getX().doubleValue() < middle.getX().doubleValue() &&
+        point.getY().doubleValue() < middle.getY().doubleValue();
   }
 
   /**
@@ -240,10 +242,10 @@ public class CornerAnalyzer {
    * @param borderPoints a list representing the border points.
    * @param middle the middle point of the image.
    */
-  private void calculateTopRight(List<PointInteger> borderPoints, PointInteger middle) {
+  private void calculateTopRight(List<Point> borderPoints, Point middle) {
     double dist = 0;
 
-    for (PointInteger borderPoint : borderPoints) {
+    for (Point borderPoint : borderPoints) {
       if (isInTopRightCorner(borderPoint, middle) &&
           dist < borderPoint.distanceTo(middle)) {
         dist = borderPoint.distanceTo(middle);
@@ -261,8 +263,9 @@ public class CornerAnalyzer {
    * @return a boolean representing whether the given point is in
    * the top right corner.
    */
-  private boolean isInTopRightCorner(PointInteger point, PointInteger middle) {
-    return point.getX() > middle.getX() && point.getY() < middle.getY();
+  private boolean isInTopRightCorner(Point point, Point middle) {
+    return point.getX().doubleValue() > middle.getX().doubleValue() &&
+        point.getY().doubleValue() < middle.getY().doubleValue();
   }
 
   /**
@@ -271,10 +274,10 @@ public class CornerAnalyzer {
    * @param borderPoints a list representing the border points.
    * @param middle the middle point of the image.
    */
-  private void calculateBottomRight(List<PointInteger> borderPoints, PointInteger middle) {
+  private void calculateBottomRight(List<Point> borderPoints, Point middle) {
     double dist = 0;
 
-    for (PointInteger borderPoint : borderPoints) {
+    for (Point borderPoint : borderPoints) {
       if (isInBottomRightCorner(borderPoint, middle) &&
           dist < borderPoint.distanceTo(middle)) {
         dist = borderPoint.distanceTo(middle);
@@ -292,8 +295,9 @@ public class CornerAnalyzer {
    * @return a boolean representing whether the given point is in
    * the bottom right corner.
    */
-  private boolean isInBottomRightCorner(PointInteger point, PointInteger middle) {
-    return point.getX() > middle.getX() && point.getY() > middle.getY();
+  private boolean isInBottomRightCorner(Point point, Point middle) {
+    return point.getX().doubleValue() > middle.getX().doubleValue() &&
+        point.getY().doubleValue() > middle.getY().doubleValue();
   }
 
   /**
@@ -302,10 +306,10 @@ public class CornerAnalyzer {
    * @param borderPoints a list representing the border points.
    * @param middle the middle point of the image.
    */
-  private void calculateBottomLeft(List<PointInteger> borderPoints, PointInteger middle) {
+  private void calculateBottomLeft(List<Point> borderPoints, Point middle) {
     double dist = 0;
 
-    for (PointInteger borderPoint : borderPoints) {
+    for (Point borderPoint : borderPoints) {
       if (isInBottomLeftCorner(borderPoint, middle) &&
           dist < borderPoint.distanceTo(middle)) {
         dist = borderPoint.distanceTo(middle);
@@ -323,7 +327,8 @@ public class CornerAnalyzer {
    * @return a boolean representing whether the given point is in
    * the bottom left corner.
    */
-  private boolean isInBottomLeftCorner(PointInteger point, PointInteger middle) {
-    return point.getX() < middle.getX() && point.getY() > middle.getY();
+  private boolean isInBottomLeftCorner(Point point, Point middle) {
+    return point.getX().doubleValue() < middle.getX().doubleValue() &&
+        point.getY().doubleValue() > middle.getY().doubleValue();
   }
 }

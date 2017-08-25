@@ -1,6 +1,6 @@
 package com.ichack.scancode.model.codeanalyzer;
 
-import com.ichack.scancode.model.corners.PointDouble;
+import com.ichack.scancode.model.corners.Point;
 import com.ichack.scancode.model.Image;
 import java.awt.Color;
 import java.util.ArrayList;
@@ -12,13 +12,13 @@ public class Code {
   static final int MAX_SIZE = 512;
   private long code;
 
-  public Code(Image img, PointDouble[] corners) {
-    code = generateCode(scaleImage(img, corners, new PointDouble[]{
-        new PointDouble(0, 0),
-        new PointDouble(MAX_SIZE, MAX_SIZE)}));
+  public Code(Image img, Point[] corners) {
+    code = generateCode(scaleImage(img, corners, new Point[]{
+        new Point(0, 0),
+        new Point(MAX_SIZE, MAX_SIZE)}));
   }
 
-  private Color getAveragePixel(Image img, PointDouble[] corners) {
+  private Color getAveragePixel(Image img, Point[] corners) {
     return img.getPixel(corners[0].getY().intValue(), corners[0].getX().intValue());
   }
 
@@ -29,8 +29,8 @@ public class Code {
     int count[][] = new int[MAX_SIZE + 10][MAX_SIZE + 10];
     for (int i = 0; i < pixels.size(); i++) {
       LocatedPixel p = pixels.get(i);
-      double x = p.getPoint().getX();
-      double y = p.getPoint().getY();
+      double x = p.getPoint().getX().doubleValue();
+      double y = p.getPoint().getY().doubleValue();
       int pozX = (int) x;
       int pozY = (int) (MAX_SIZE - y);
 
@@ -77,8 +77,8 @@ public class Code {
     return code;
   }
 
-  private List<LocatedPixel> scaleImage(Image img, PointDouble[] corners,
-      PointDouble[] realCorners) {
+  private List<LocatedPixel> scaleImage(Image img, Point[] corners,
+      Point[] realCorners) {
 
     List<LocatedPixel> pixels = new ArrayList<LocatedPixel>();
 
@@ -88,38 +88,38 @@ public class Code {
     } else {
       Line d1 = new Line(corners[0], corners[3]);
       Line d2 = new Line(corners[1], corners[2]);
-      PointDouble center = d1.intersect(d2);
+      Point center = d1.intersect(d2);
       Line l12 = new Line(corners[0], corners[1]);
       Line l24 = new Line(corners[1], corners[3]);
       Line l43 = new Line(corners[3], corners[2]);
       Line l31 = new Line(corners[2], corners[0]);
-      PointDouble mid12 = l12.getMiddle(l31.length() / (l24.length() + l31.length()));
-      PointDouble mid24 = l24.getMiddle(l12.length() / (l43.length() + l12.length()));
-      PointDouble mid43 = l43.getMiddle(l24.length() / (l31.length() + l24.length()));
+      Point mid12 = l12.getMiddle(l31.length() / (l24.length() + l31.length()));
+      Point mid24 = l24.getMiddle(l12.length() / (l43.length() + l12.length()));
+      Point mid43 = l43.getMiddle(l24.length() / (l31.length() + l24.length()));
       ;
-      PointDouble mid31 = l31.getMiddle(l43.length() / (l12.length() + l43.length()));
-      PointDouble[] corners1 = new PointDouble[]{corners[0], mid12, mid31, center};
-      PointDouble[] corners2 = new PointDouble[]{mid12, corners[1], center, mid24};
-      PointDouble[] corners3 = new PointDouble[]{mid31, center, corners[2], mid43};
-      PointDouble[] corners4 = new PointDouble[]{center, mid24, mid43, corners[3]};
+      Point mid31 = l31.getMiddle(l43.length() / (l12.length() + l43.length()));
+      Point[] corners1 = new Point[]{corners[0], mid12, mid31, center};
+      Point[] corners2 = new Point[]{mid12, corners[1], center, mid24};
+      Point[] corners3 = new Point[]{mid31, center, corners[2], mid43};
+      Point[] corners4 = new Point[]{center, mid24, mid43, corners[3]};
       int midX = (realCorners[1].getX().intValue() + realCorners[0].getX().intValue()) / 2 + 1;
       int midY = (realCorners[1].getY().intValue() + realCorners[0].getY().intValue()) / 2 + 1;
 
-      PointDouble[] realCorners1 = new PointDouble[]{
-          new PointDouble(realCorners[0].getX(), realCorners[0].getY()),
-          new PointDouble(midX - 1, midY - 1)
+      Point[] realCorners1 = new Point[]{
+          new Point(realCorners[0].getX(), realCorners[0].getY()),
+          new Point(midX - 1, midY - 1)
       };
-      PointDouble[] realCorners2 = new PointDouble[]{
-          new PointDouble(midX, realCorners[0].getY()),
-          new PointDouble(realCorners[1].getX(), midY - 1)
+      Point[] realCorners2 = new Point[]{
+          new Point(midX, realCorners[0].getY()),
+          new Point(realCorners[1].getX(), midY - 1)
       };
-      PointDouble[] realCorners3 = new PointDouble[]{
-          new PointDouble(realCorners[0].getX(), midY),
-          new PointDouble(midX - 1, realCorners[1].getY())
+      Point[] realCorners3 = new Point[]{
+          new Point(realCorners[0].getX(), midY),
+          new Point(midX - 1, realCorners[1].getY())
       };
-      PointDouble[] realCorners4 = new PointDouble[]{
-          new PointDouble(midX, midY),
-          new PointDouble(realCorners[1].getX(), realCorners[1].getY())
+      Point[] realCorners4 = new Point[]{
+          new Point(midX, midY),
+          new Point(realCorners[1].getX(), realCorners[1].getY())
       };
       pixels.addAll(scaleImage(img, corners1, realCorners1));
       pixels.addAll(scaleImage(img, corners2, realCorners2));
