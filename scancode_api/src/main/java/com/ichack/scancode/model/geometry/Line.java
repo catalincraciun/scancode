@@ -49,7 +49,7 @@ public class Line {
    * @param scale The number of units used for translation
    * @return The translated Point, always located on this line
    */
-  public Point getTranslation(double scale) {
+  public Point<Double> getTranslation(double scale) {
     return new Point<>(
         (p2.getX() - p1.getX()) * scale + p1.getX(),
         (p2.getY() - p1.getY()) * scale + p1.getY());
@@ -61,7 +61,7 @@ public class Line {
    * @param other The line with which you want to intersect this line
    * @return A Point representing the point of intersection
    */
-  public Point getIntersection(Line other) {
+  public Point<Double> getIntersection(Line other) {
     if (!isVertical && !other.isVertical) {
       double y = (c - other.c) / (other.b - b);
       return new Point<>(-c - y * b, y);
