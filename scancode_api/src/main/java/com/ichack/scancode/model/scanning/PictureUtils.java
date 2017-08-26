@@ -31,7 +31,7 @@ public class PictureUtils {
    * @param point The point for which you want to check
    * @return True if point is inside the bounds of this picture
    */
-  public boolean contains(Point point) {
+  public <T extends Number> boolean contains(Point<T> point) {
     return point.getX().doubleValue() >= 0 &&
         point.getX().doubleValue() < getWidth() &&
         point.getY().doubleValue() >= 0 &&
