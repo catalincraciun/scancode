@@ -1,6 +1,8 @@
 package com.ichack.scancode.controllers;
 
 import com.ichack.scancode.model.storage.FileStorageGuard;
+
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -86,11 +88,17 @@ public class ScanCodeController {
         Image myImage = new Image(base64);
         CornerAnalyzer analyzer = new CornerAnalyzer(new PictureUtils(myImage.getImage()));
         analyzer.scanCorners();
-        Code code = new Code(myImage, new Point[]{
-            new Point(analyzer.getTopLeft().getY(), analyzer.getTopLeft().getX()),
-            new Point(analyzer.getTopRight().getY(), analyzer.getTopRight().getX()),
-            new Point(analyzer.getBottomLeft().getY(), analyzer.getBottomLeft().getX()),
-            new Point(analyzer.getBottomRight().getY(), analyzer.getBottomRight().getX())});
+        Code code = new Code(myImage, new ArrayList<Point<Double>>() {{
+            add(new Point<>((double) analyzer.getTopLeft().getY(),
+                (double) analyzer.getTopLeft().getX()));
+            add(new Point<>((double) analyzer.getTopRight().getY(),
+                (double) analyzer.getTopRight().getX()));
+            add(new Point<>((double) analyzer.getBottomLeft().getY(),
+                (double) analyzer.getBottomLeft().getX()));
+            add(new Point<>((double) analyzer.getBottomRight().getY(),
+                (double) analyzer.getBottomRight().getX()));
+        }});
+
         return new ResponseEntity<>(
             new ScanResult(storage.getData(code.getCode())),
             HttpStatus.OK);
