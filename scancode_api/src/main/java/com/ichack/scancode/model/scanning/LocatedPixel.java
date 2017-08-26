@@ -9,9 +9,9 @@ import com.ichack.scancode.model.geometry.Point;
 class LocatedPixel {
 
   private final Color pixel;
-  private final Point point;
+  private final Point<Double> point;
 
-  LocatedPixel(Color pixel, Point point) {
+  LocatedPixel(Color pixel, Point<Double> point) {
     this.pixel = pixel;
     this.point = point;
   }
@@ -20,7 +20,7 @@ class LocatedPixel {
     return pixel;
   }
 
-  Point getPoint() {
+  Point<Double> getPoint() {
     return point;
   }
 }
