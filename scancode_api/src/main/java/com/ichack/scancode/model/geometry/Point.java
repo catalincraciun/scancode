@@ -1,19 +1,19 @@
 package com.ichack.scancode.model.geometry;
 
 /**
- * Models a generic point with two Number coordinates
+ * Models a generic point with two coordinates of Number subtypes
  */
-public class Point {
+public class Point<T extends Number> {
 
   /**
    * The x coordinate of your point
    */
-  private final Number x;
+  private final T x;
 
   /**
    * The y coordinate of your point
    */
-  private final Number y;
+  private final T y;
 
   /**
    * Constructs a point out of two Number coordinates
@@ -21,7 +21,7 @@ public class Point {
    * @param x The x coordinate of your point
    * @param y The y coordinate of your point
    */
-  public Point(Number x, Number y) {
+  public Point(T x, T y) {
     this.x = x;
     this.y = y;
   }
@@ -29,14 +29,14 @@ public class Point {
   /**
    * @return The x coordinate of this point
    */
-  public Number getX() {
+  public T getX() {
     return x;
   }
 
   /**
    * @return The y coordinate of this point
    */
-  public Number getY() {
+  public T getY() {
     return y;
   }
 
@@ -46,7 +46,7 @@ public class Point {
    * @param other The other point
    * @return A double representing the distance between the two points
    */
-  public double distanceTo(Point other) {
+  public <S extends Number> double distanceTo(Point<S> other) {
     return Math.sqrt(Math.pow(this.x.doubleValue() - other.x.doubleValue(), 2)
         + Math.pow(this.y.doubleValue() - other.y.doubleValue(), 2));
   }
