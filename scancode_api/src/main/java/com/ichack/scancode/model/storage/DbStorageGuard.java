@@ -13,7 +13,6 @@ import java.util.NoSuchElementException;
  * This implementation of StorageGuard uses a MongoDB database
  * to store objects.
  */
-
 public class DbStorageGuard implements StorageGuard {
 
   /**
@@ -101,25 +100,11 @@ public class DbStorageGuard implements StorageGuard {
     collection = db.getCollection(COLLECTION);
   }
 
-  /**
-   * A method which checks if a code is contained in the database.
-   *
-   * @param code The code you want to check for.
-   * @return A boolean representing whether the code exists in the database.
-   */
   @Override
   public boolean containsData(long code) {
     return collection.find(Filters.eq("code", code)).iterator().hasNext();
   }
 
-  /**
-   * A method which stores data for a given code, simulating
-   * the behaviour of a map (replacing a previous entry if one
-   * already exists).
-   *
-   * @param code The code to which the data coresponds.
-   * @param data The data you want to store.
-   */
   @Override
   public void add(long code, String data) {
     if (containsData(code)) {
@@ -132,12 +117,6 @@ public class DbStorageGuard implements StorageGuard {
     collection.insertOne(toAdd);
   }
 
-  /**
-   * Retrieves the data associated with a stored code.
-   *
-   * @param code The code you want to query data for.
-   * @return A String representing the data.
-   */
   @Override
   public String getData(long code) {
     if (!containsData(code)) {
@@ -147,6 +126,6 @@ public class DbStorageGuard implements StorageGuard {
     Document entry = collection.find(Filters.eq("code", code))
         .iterator().next();
 
-    return (String) entry.get("data");
+    return (String)entry.get("data");
   }
 }
