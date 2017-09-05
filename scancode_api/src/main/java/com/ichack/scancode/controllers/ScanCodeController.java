@@ -87,8 +87,8 @@ public class ScanCodeController {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    String base64 = (String) map.get("image");
-    String userApiKey = (String) map.get("apiKey");
+    String base64 = (String)map.get("image");
+    String userApiKey = (String)map.get("apiKey");
     if (API_KEY.equals(userApiKey)) {
       // Authorised access
       try {
@@ -97,13 +97,13 @@ public class ScanCodeController {
         analyzer.scanCorners();
         Code code = new Code(myImage, new ArrayList<Point<Double>>() {{
             add(new Point<>((double) analyzer.getTopLeft().getY(),
-                (double) analyzer.getTopLeft().getX()));
+                (double)analyzer.getTopLeft().getX()));
             add(new Point<>((double) analyzer.getTopRight().getY(),
-                (double) analyzer.getTopRight().getX()));
+                (double)analyzer.getTopRight().getX()));
             add(new Point<>((double) analyzer.getBottomLeft().getY(),
-                (double) analyzer.getBottomLeft().getX()));
+                (double)analyzer.getBottomLeft().getX()));
             add(new Point<>((double) analyzer.getBottomRight().getY(),
-                (double) analyzer.getBottomRight().getX()));
+                (double)analyzer.getBottomRight().getX()));
         }});
 
         return new ResponseEntity<>(
