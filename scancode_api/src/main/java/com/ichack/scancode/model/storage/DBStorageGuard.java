@@ -109,6 +109,7 @@ public class DBStorageGuard implements StorageGuard {
 
   /**
    * Getter method which returns the Mongo client used for this DBStorageGuard.
+   * 
    * @return A MongoClient object representing the Mongo client.
    */
   public MongoClient getMongo() {
