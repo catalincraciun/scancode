@@ -124,8 +124,8 @@ public class DBStorageGuard implements StorageGuard {
   @Override
   public void add(long code, String data) {
     if (containsData(code)) {
-      collection.deleteOne(collection.find(Filters.eq("code", code))
-          .iterator().next());
+      throw new IllegalArgumentException("Database already contains this code:"
+          + code);
     }
 
     Document toAdd = new Document("code", code)
