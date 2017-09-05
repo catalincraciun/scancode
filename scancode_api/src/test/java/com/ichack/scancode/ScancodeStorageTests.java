@@ -16,7 +16,7 @@ public class ScancodeStorageTests {
   private static final String TEST_HOST = "localhost";
   private static final int TEST_PORT = 27017;
   private static final List<Long> testCodes = new ArrayList<>();
-  private static final int numTests = 10;
+  private static final int numTests = 100;
   private DBStorageGuard testStorageGuard;
 
   @Test
@@ -47,6 +47,14 @@ public class ScancodeStorageTests {
     Assert.assertTrue("Added codes succesfully!", true);
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void testDuplicateCodeException() {
+    createTestStorageGuard();
+    testStorageGuard.add(0, "first code");
+    testStorageGuard.add(0, "duplicate not allowed!");
+    destroyTestStorageGuard();
+  }
+
   @Test
   public void testContainsData() {
     createTestStorageGuard();
@@ -70,26 +78,19 @@ public class ScancodeStorageTests {
   @Test
   public void testGetData() {
     createTestStorageGuard();
+    randomizeTestCodes(numTests);
 
     for (int i = 0; i < numTests; i++) {
-      testStorageGuard.add(i, "test" + i);
+      testStorageGuard.add(testCodes.get(i), "test" + i);
     }
 
     for (int i = 0; i < numTests; i++) {
-      Assert.assertEquals(testStorageGuard.getData(i), "test" + i);
-    }
-
-    for (int i = 1; i <= numTests; i++) {
-      testStorageGuard.add(i, "test" + (i + 1));
-    }
-
-    Assert.assertEquals(testStorageGuard.getData(0), "test0");
-
-    for (int i = 1; i <= numTests; i++) {
-      Assert.assertEquals(testStorageGuard.getData(i), "test" + (i + 1));
+      Assert.assertEquals(testStorageGuard.getData(testCodes.get(i)),
+          "test" + i);
     }
 
     destroyTestStorageGuard();
+    testCodes.clear();
   }
 
   @Test(expected = NoSuchElementException.class)
@@ -99,21 +100,37 @@ public class ScancodeStorageTests {
     destroyTestStorageGuard();
   }
 
+  /**
+   * A method that creates the test storage guard.
+   */
   private void createTestStorageGuard() {
     testStorageGuard = new DBStorageGuard(TEST_DATABASE_NAME,
         TEST_HOST, TEST_PORT);
   }
 
+  /**
+   * A method that destroys the test storage guard.
+   */
   private void destroyTestStorageGuard() {
     MongoClient testMongoClient = testStorageGuard.getMongo();
     testMongoClient.dropDatabase(TEST_DATABASE_NAME);
     testMongoClient.close();
   }
 
+  /**
+   * This method populates the testCodes with a given number of
+   * random distinct long codes.
+   *
+   * @param numberOfCodes The number of codes to populate the list with.
+   */
   private void randomizeTestCodes(int numberOfCodes) {
     Random generator = new Random();
-    for (int i = 0; i < numberOfCodes; i++) {
-      testCodes.add(Math.abs(generator.nextLong()));
+    while(testCodes.size() < numberOfCodes) {
+      long codeToAdd = Math.abs(generator.nextLong());
+      if (testCodes.contains(codeToAdd)) {
+        continue;
+      }
+      testCodes.add(codeToAdd);
     }
   }
 }
