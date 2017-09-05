@@ -107,6 +107,14 @@ public class DBStorageGuard implements StorageGuard {
     collection = db.getCollection(COLLECTION);
   }
 
+  /**
+   * Getter method which returns the Mongo client used for this DBStorageGuard.
+   * @return A MongoClient object representing the Mongo client.
+   */
+  public MongoClient getMongo() {
+    return mongo;
+  }
+
   @Override
   public boolean containsData(long code) {
     return collection.find(Filters.eq("code", code)).iterator().hasNext();

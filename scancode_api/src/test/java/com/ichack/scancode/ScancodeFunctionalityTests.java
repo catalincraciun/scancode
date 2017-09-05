@@ -21,7 +21,7 @@ import org.junit.Assert;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-public class ScanCodeApplicationTests {
+public class ScancodeFunctionalityTests {
 
   private static final String API_KEY = "7D8s2DJK23iD92jdDJksqEQewscxnr24j2Dsncsksddsjejdmnds2";
   private static final int SCAN_TESTS_NUMBER = 7;
