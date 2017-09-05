@@ -1,6 +1,6 @@
 package com.ichack.scancode.controllers;
 
-import com.ichack.scancode.model.storage.FileStorageGuard;
+import com.ichack.scancode.model.storage.DBStorageGuard;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -34,6 +34,12 @@ public class ScanCodeController {
   /* API Key for simple usage authorisation */
   private static final String API_KEY =
       "7D8s2DJK23iD92jdDJksqEQewscxnr24j2Dsncsksddsjejdmnds2";
+  /* Default storage location */
+  private static final String DEFAULT_DATABASE_NAME = "DatabaseCodeStorage";
+  /* Default database host */
+  private static final String DEFAULT_HOST = "localhost";
+  /* Default database port */
+  private static final int DEFAULT_PORT = 27017;
 
   private final StorageGuard storage;
 
@@ -42,7 +48,8 @@ public class ScanCodeController {
   }
 
   public ScanCodeController() {
-    this.storage = new FileStorageGuard();
+    this.storage = new DBStorageGuard(DEFAULT_DATABASE_NAME, DEFAULT_HOST,
+        DEFAULT_PORT);
   }
 
   private long getUniqueCode() {
