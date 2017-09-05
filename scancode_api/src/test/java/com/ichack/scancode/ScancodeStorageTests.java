@@ -16,7 +16,7 @@ public class ScancodeStorageTests {
   private static final String TEST_HOST = "localhost";
   private static final int TEST_PORT = 27017;
   private static final List<Long> testCodes = new ArrayList<>();
-  private static final int numTests = 1000;
+  private static final int numTests = 10;
   private DBStorageGuard testStorageGuard;
 
   @Test
