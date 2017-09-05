@@ -16,22 +16,7 @@ import java.util.NoSuchElementException;
 public class DBStorageGuard implements StorageGuard {
 
   /**
-   * The name of the database where the data is kept.
-   */
-  private static final String DATABASENAME = "DatabaseCodeStorage";
-
-  /**
-   * The name of the domain hosting the database.
-   */
-  private static final String HOST = "localhost";
-
-  /**
-   * The name of the port hosting the database.
-   */
-  private static final int PORT = 27017;
-
-  /**
-   * The name of the collection holding the data.
+   * The default name of the collection holding the data.
    */
   private static final String COLLECTION = "DataCollection";
 
@@ -39,6 +24,21 @@ public class DBStorageGuard implements StorageGuard {
    * The default username used to connect to the database.
    */
   private static final String USERNAME = "user";
+
+  /**
+   * The name of the database where the data is to be kept.
+   */
+  private final String databaseName; //"DatabaseCodeStorage"
+
+  /**
+   * The name of the domain hosting the database.
+   */
+  private final String host; // "localhost";
+
+  /**
+   * The name of the port hosting the database.
+   */
+  private final int port; //27017;
 
   /**
    * The Mongo client used to connect to the database.
@@ -61,10 +61,17 @@ public class DBStorageGuard implements StorageGuard {
   private MongoCollection<Document> collection;
 
   /**
-   * Create a new DbStorageGuard object, which always
-   * connects to the same database and uses the same collection.
+   * Create a new DbStorageGuard object which connects
+   * to the given database, on the given host and port.
+   *
+   * @param databaseName The name of the database to connect to.
+   * @param host The name of the host.
+   * @param port The name of the port.
    */
-  public DBStorageGuard() {
+  public DBStorageGuard(String databaseName, String host, int port) {
+    this.databaseName = databaseName;
+    this.host = host;
+    this.port = port;
     connectToDatabase();
   }
 
@@ -74,14 +81,14 @@ public class DBStorageGuard implements StorageGuard {
    */
   private void connectToDatabase() {
     //creating the Mongo client with the given host and port
-    mongo = new MongoClient(HOST, PORT);
+    mongo = new MongoClient(host, port);
 
     //creating the Mongo credentials for the database
-    credentials = MongoCredential.createCredential(USERNAME, DATABASENAME,
+    credentials = MongoCredential.createCredential(USERNAME, databaseName,
         "password".toCharArray());
 
     //accessing the database
-    db = mongo.getDatabase(DATABASENAME);
+    db = mongo.getDatabase(databaseName);
 
     //retrieve the collection
     setCollection();
