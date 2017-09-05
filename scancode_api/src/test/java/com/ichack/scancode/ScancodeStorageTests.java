@@ -29,6 +29,7 @@ public class ScancodeStorageTests {
     } finally {
       destroyTestStorageGuard();
     }
+
     Assert.assertTrue("Connection successful!", true);
   }
 
@@ -111,7 +112,6 @@ public class ScancodeStorageTests {
 
   private void randomizeTestCodes(int numberOfCodes) {
     Random generator = new Random();
-
     for (int i = 0; i < numberOfCodes; i++) {
       testCodes.add(Math.abs(generator.nextLong()));
     }
