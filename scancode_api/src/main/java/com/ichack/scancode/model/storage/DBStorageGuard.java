@@ -13,7 +13,7 @@ import java.util.NoSuchElementException;
  * This implementation of StorageGuard uses a MongoDB database
  * to store objects.
  */
-public class DbStorageGuard implements StorageGuard {
+public class DBStorageGuard implements StorageGuard {
 
   /**
    * The name of the database where the data is kept.
@@ -64,7 +64,7 @@ public class DbStorageGuard implements StorageGuard {
    * Create a new DbStorageGuard object, which always
    * connects to the same database and uses the same collection.
    */
-  public DbStorageGuard() {
+  public DBStorageGuard() {
     connectToDatabase();
   }
 
