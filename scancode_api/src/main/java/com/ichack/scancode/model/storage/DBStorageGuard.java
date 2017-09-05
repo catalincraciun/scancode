@@ -28,17 +28,17 @@ public class DBStorageGuard implements StorageGuard {
   /**
    * The name of the database where the data is to be kept.
    */
-  private final String databaseName; //"DatabaseCodeStorage"
+  private final String databaseName;
 
   /**
    * The name of the domain hosting the database.
    */
-  private final String host; // "localhost";
+  private final String host;
 
   /**
    * The name of the port hosting the database.
    */
-  private final int port; //27017;
+  private final int port;
 
   /**
    * The Mongo client used to connect to the database.
